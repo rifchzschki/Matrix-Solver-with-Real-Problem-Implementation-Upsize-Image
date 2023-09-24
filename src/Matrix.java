@@ -123,7 +123,7 @@ public class Matrix {
 
     // ***Operasi Matriks***
     public Matrix reductionMat(Matrix M){
-        static Mat[][];
+        Matrix Mat[][];
 
         this.Matrix(2,3);
         return Mat;
