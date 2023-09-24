@@ -32,9 +32,10 @@ public class Matrix {
             {
                 this.matrix[i][j] = matrix[i][j];
             }
+            this.b[i] = b[i];
         }
     }
-    public double[][] createAugmentedMatrix(double[][] a, double[] b) //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
+    public double[][] createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
     {
         this.augmentedMatrix = new double[row][col+1];
         for(int i = 0; i < row; i++)
@@ -43,11 +44,11 @@ public class Matrix {
             {   
                 if (j == col)
                 {
-                    augmentedMatrix[i][j] = b[i];
+                    augmentedMatrix[i][j] = this.b[i];
                 }
                 else
                 {
-                augmentedMatrix[i][j] = a[i][j];
+                augmentedMatrix[i][j] = this.matrix[i][j];
                 }
             }
         }
@@ -84,7 +85,7 @@ public class Matrix {
             }
             System.out.println("Isi elemen b ke [" + (i) + "] : ");
             double elemen = scanner.nextDouble(); //elemen b[i]
-            this.array[i]=elemen;
+            this.b[i]=elemen;
             // scanner.close();
         }
         // return matrix;
@@ -92,10 +93,10 @@ public class Matrix {
 
    
 
-    public void printMatrix(double[][] matrix) {
-        for (int i = 0; i < row; i++) {
+    public void printMatrix() {
+        for (int i = 0; i < this.row; i++) {
 
-            for (int j = 0; j < col; j++) {
+            for (int j = 0; j < this.col; j++) {
                 matrix[i][j]+=0; //menghilangkan -0
                 System.out.format(" %.2f ", matrix[i][j]);
             }
