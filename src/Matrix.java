@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Matrix {
 
-    public int baris,kolom; //m itu baris,n itu kolom
-    public int barisMin=0;
-    public int kolomMin =0;
+    public int row,col; //m itu baris,n itu kolom
+    public int rowMin=0;
+    public int colMin =0;
     public double[][] matrix;//ax
     public double[] b;//b
     public double[] array;
@@ -15,14 +15,14 @@ public class Matrix {
     /* ********** KONSTRUKTOR ********** */
     public double[][] createAugmentedMatrix(double[][] a, double[] b) //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
     {
-        augmentedMatrix = new double[baris][kolom+1];
+        augmentedMatrix = new double[row][col+1];
         
         
-        for(int i = 0; i < baris; i++)
+        for(int i = 0; i < row; i++)
         {
-            for(int j = 0; j < kolom+1; j++)
+            for(int j = 0; j < col+1; j++)
             {   
-                if (j == kolom)
+                if (j == col)
                 {
                     augmentedMatrix[i][j] = b[i];
                 }
@@ -46,14 +46,14 @@ public class Matrix {
     {
         
         System.out.println("Jumlah Baris : ");//m
-        baris = scanner.nextInt();
+        row = scanner.nextInt();
         System.out.println("Jumlah Kolom : ");//n
-        kolom = scanner.nextInt();
-        matrix = new double[baris][kolom]; //a[i][j]
-        array = new double[baris]; //b[i]
-        for(int i = 0; i < baris; i++)
+        col = scanner.nextInt();
+        matrix = new double[row][col]; //a[i][j]
+        array = new double[row]; //b[i]
+        for(int i = 0; i < row; i++)
         {
-            for(int j = 0; j < kolom; j++)
+            for(int j = 0; j < col; j++)
             {   
                 System.out.println("Isi elemen a ke [" + (i) + "]" +"[" + (j) + "] : ");
                 double elemen = scanner.nextDouble();
@@ -71,9 +71,9 @@ public class Matrix {
    
 
     public void printMatrix(double[][] matrix) {
-        for (int i = 0; i < baris; i++) {
+        for (int i = 0; i < row; i++) {
 
-            for (int j = 0; j < kolom; j++) {
+            for (int j = 0; j < col; j++) {
                 matrix[i][j]+=0; //menghilangkan -0
                 System.out.format(" %.2f ", matrix[i][j]);
             }
@@ -93,11 +93,11 @@ public class Matrix {
     }
 
     public int GetLastIdxBrs(Matrix M) {
-        return M.baris - 1;
+        return M.row - 1;
     }
 
     public int GetLastIdxKol(Matrix M) {
-        return M.kolom - 1;
+        return M.col - 1;
     }
 
 
