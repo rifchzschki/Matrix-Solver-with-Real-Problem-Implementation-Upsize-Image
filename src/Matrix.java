@@ -111,9 +111,9 @@ public class Matrix {
 
     // ***Operasi Matriks***
     public Matrix reductionMat(Matrix M){
-        static Mat;
+        static Mat[][];
 
-        Matrix()
+        this.Matrix(2,3);
         return Mat;
     }
 
