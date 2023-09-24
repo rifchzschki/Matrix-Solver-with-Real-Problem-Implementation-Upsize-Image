@@ -1,4 +1,3 @@
-package src;
 
 import java.util.Scanner;
 
@@ -100,10 +99,12 @@ public class Matrix {
         return M.col - 1;
     }
 
+    // ***Operasi Matriks***
+    public Matrix reductionMat(Matrix M){
+        static Mat;
 
-
-
-
-
+        Matrix()
+        return Mat;
+    }
 
 }
