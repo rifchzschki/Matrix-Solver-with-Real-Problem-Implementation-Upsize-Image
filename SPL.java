@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 public class SPL {
-    static int baris,kolom; //m itu baris,n itu kolom
-    static double[][] matrix;
-    static double[] b;
-    static double[] array;
-    static double[][] augmentedMatrix;
+    public int baris,kolom; //m itu baris,n itu kolom
+    public double[][] matrix;
+    public double[] b;
+    public double[] array;
+    public double[][] augmentedMatrix;
     Scanner scanner = new Scanner(System.in);
     public void readMatrix()
     {
@@ -56,38 +56,39 @@ public class SPL {
         return augmentedMatrix;
     }
 
-    public double[][] obe()
+    public double[][] Gauss()
     {
 
         
         readMatrix();
-        createAugmentedMatrix(matrix, b);
+        createAugmentedMatrix(matrix, array);
 
         // Eliminasi Gauss
         for (int i = 0; i < baris; i++) {
             for (int j = i + 1; j < kolom; j++) {
-                double ratio = matrix[j][i] / matrix[i][i];
-                for (int k = 0; k < baris + 1; k++) {
-                    matrix[j][k] -= ratio * matrix[i][k];
+                double ratio = augmentedMatrix[j][i] / augmentedMatrix[i][i];
+                for (int k = 0; k < kolom + 1; k++) {
+                    augmentedMatrix[j][k] -= ratio * augmentedMatrix[i][k];
                 }
             }
         }
+        printMatrix(augmentedMatrix,baris,kolom+1);
 
         // Penyelesaian balik (back substitution)
         double[] solusi = new double[baris];
         for (int i = baris - 1; i >= 0; i--) {
-            solusi[i] = matrix[i][baris];
+            solusi[i] = augmentedMatrix[i][baris];
             for (int j = i + 1; j < baris; j++) {
-                solusi[i] -= matrix[i][j] * solusi[j];
+                solusi[i] -= augmentedMatrix[i][j] * solusi[j];
             }
-            solusi[i] /= matrix[i][i];
+            solusi[i] /= augmentedMatrix[i][i];
         }
 
         System.out.println("Hasil setelah eliminasi Gauss:");
         for (int i = 0; i < baris; i++) {
             System.out.println("x" + (i + 1) + " = " + solusi[i]);
         }
-        return matrix;
+        return augmentedMatrix;
     }
 
 
@@ -96,7 +97,7 @@ public class SPL {
      public static void main(String args[])
     {
         SPL testSpl = new SPL();
-        testSpl.obe();
+        testSpl.Gauss();
 
         // readMatrix();
         // printMatrix(matrix,3,3);
@@ -106,14 +107,14 @@ public class SPL {
    
     
     
-    public void printMatrix(int[][] matrix,int baris, int kolom)
+    public void printMatrix(double[][] matrix,int baris, int kolom)
     {
         for(int i = 0; i < baris; i++)
         {
             
             for(int j = 0; j < kolom; j++)
             {   
-               System.out.format(" %d ",matrix[i][j]);
+               System.out.format(" %f ",matrix[i][j]);
             }
             
             System.out.println();
@@ -135,4 +136,3 @@ public class SPL {
 
 
 
-}
