@@ -122,7 +122,19 @@ public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan
         return M.col - 1;
     }
 
+    // *** Operasi perkalian matriks ***
+    public static Matrix multiple (Matrix m, double k){
+        Matrix result = new Matrix(m.row,m.col);
+        for(int i=0;i<m.row;++i){
+            for(int j=0;j<m.col;++j){
+                result.matrix[i][j] *= k;
+            }
+        }
+        return result;
+    }
 
+    
+    
 
     // ***Operasi Matriks***
     public static void main(String args[])
