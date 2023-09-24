@@ -18,7 +18,7 @@ public class Matrix {
         this.col = kolom;
         this.matrix = new double[baris][kolom];
         this.augmentedMatrix = new double[baris][kolom+1];
-        // this.b = new double[baris]; 
+        this.b = new double[baris]; 
     }
     
     public Matrix(double[][] matrix) {
@@ -56,12 +56,12 @@ public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan
     
     
     
+
     
-    
-    /* ********** INPUT/OUTPUT MATRIKS ********** */
+    /* ********** INPUT/OUTPUT MATRIX ********** */
     public void readMatrix() //procedure baca matrix dari input keyboard
     {
-        this.b = new double[this.row];
+        // this.b = new double[this.row];
 
         for(int i = 0; i < this.row; i++)
         {
@@ -135,8 +135,38 @@ public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan
 
     
     
+    /* ********** TIPE MATRIX ********** */
+    public static Matrix Identitas(int N) {
+        Matrix M = new Matrix(N, N);
+        for (int i = 0; i < N; i++)
+            M.matrix[i][i] = 1;
+        return M;
+    }
 
-    // ***Operasi Matriks***
+    public static Matrix Hilbert(int N) {
+        Matrix M = new Matrix(N, N + 1);
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                M.matrix[i][j] = 1.0 / (i + j + 1);
+            }
+        }
+        return M;
+    }
+
+    /* ********** SIFAT MATRIX ********** */
+    public static boolean IsIdentitas(Matrix M) {
+        boolean out = true;
+        for (int i = 0; i < M.row; i++) {
+            for (int j = 0; j < M.col; j++) {
+                if (!(((i == j) && M.matrix[i][j] == 1) || ((i != j) && M.matrix[i][j] == 0))) {
+                    out = false;
+                }
+            }
+        }
+        return out;
+    }
+
+    // ***Operasi MATRIX***
     public static void main(String args[])
     {
 
@@ -146,6 +176,76 @@ public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan
         testSpl.createAugmentedMatrix();
         testSpl.printMatrix(true);
 
-
 }
+
+public static void Copy(Matrix in, Matrix out){
+    out.row = in.row;
+    out.col = in.col;
+    out.matrix = new double[in.row][in.col];
+
+    for(int i=0; i<in.row;++i){
+        for(int j=0; j<in.col; ++j){
+            out.matrix[i][j] = in.matrix[i][j];
+        }
+    }
+}
+
+public static Matrix EliminasiGauss(Matrix M) {
+
+
+    // Inisialisasi
+    Matrix N = new Matrix(1, 1);
+    Copy(M,N);
+
+    // Proses mengurutkan baris
+    int[] zero = new int[N.row];
+    for (int i = 0; i < N.row; i++) { // Kalkulasi jumlah 0
+        zero[i] = 0;
+        int j = 0;
+        while (j < N.col && N.matrix[i][j] == 0) {
+            zero[i]++;
+            j++;
+        }
+    }
+    for (int i = 0; i < N.row; i++) { // Algoritma Pengurutan
+        for (int j = 0; j < N.row - 1; j++) {
+            if (zero[j] > zero[j + 1]) {
+                int temp;
+                N.Swap(j, j + 1);
+                temp = zero[j];
+                zero[j] = zero[j + 1];
+                zero[j + 1] = temp;
+            }
+        }
+    }
+
+    // Proses mereduksi baris
+    int indent = 0;
+
+    for (int i = 0; i < N.row; i++) {
+        // Mencari sel bernilai
+        while (i + indent < N.col && N.matrix[i][i + indent] == 0) {
+            indent++;
+        }
+
+        if (i + indent < N.col) {
+            // Ubah angka depan jadi 1
+            N.KaliBaris(i, 1 / N.matrix[i][i + indent]);
+
+            // Pengurangan baris dibawahnya
+            for (int j = i + 1; j < N.row; j++) {
+                if (N.matrix[j][i + indent] != 0) {
+                    N.KaliBaris(j, 1 / N.matrix[j][i + indent]);
+                    N.MinusBaris(j, i);
+                }
+            }
+        }
+    }
+    N.Approximate();
+
+
+
+
+
+
 }
