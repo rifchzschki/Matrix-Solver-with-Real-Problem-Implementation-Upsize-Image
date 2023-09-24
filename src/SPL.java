@@ -123,6 +123,15 @@ public class SPL{
         // static void Gaus(String args[]) 
     }
 
+    // public double[][] obe(double[][] matrix){
+    //     static hasil[][];
+    //     hasil
+
+
+
+    //     return hasil;
+    // }
+
     
 }
 
