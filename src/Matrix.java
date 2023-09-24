@@ -1,4 +1,3 @@
-package src;
 
 import java.util.Scanner;
 
@@ -33,11 +32,11 @@ public class Matrix {
             {
                 this.matrix[i][j] = matrix[i][j];
             }
-            // this.b[i] = b[i];
-        }
+        // this.b[i] = b[i];
     }
-    public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
-    {
+}
+public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
+{
         for(int i = 0; i < row; i++)
         {
             for(int j = 0; j < col+1; j++)
@@ -154,6 +153,7 @@ public class Matrix {
         return out;
     }
 
+    // ***Operasi Matriks***
     public static void main(String args[])
     {
 
@@ -162,7 +162,6 @@ public class Matrix {
         testSpl.printMatrix(false);
         testSpl.createAugmentedMatrix();
         testSpl.printMatrix(true);
-
 
 
 }
