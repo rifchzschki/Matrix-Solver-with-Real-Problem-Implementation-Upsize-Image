@@ -122,6 +122,19 @@ public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan
         return M.col - 1;
     }
 
+    // *** Operasi perkalian matriks ***
+    public static Matrix multiple (Matrix m, double k){
+        Matrix result = new Matrix(m.row,m.col);
+        for(int i=0;i<m.row;++i){
+            for(int j=0;j<m.col;++j){
+                result.matrix[i][j] *= k;
+            }
+        }
+        return result;
+    }
+
+    
+    
     /* ********** TIPE MATRIX ********** */
     public static Matrix Identitas(int N) {
         Matrix M = new Matrix(N, N);
@@ -200,12 +213,24 @@ public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan
 
 }
 
+public static void Copy(Matrix in, Matrix out){
+    out.row = in.row;
+    out.col = in.col;
+    out.matrix = new double[in.row][in.col];
+
+    for(int i=0; i<in.row;++i){
+        for(int j=0; j<in.col; ++j){
+            out.matrix[i][j] = in.matrix[i][j];
+        }
+    }
+}
+
 public static Matrix EliminasiGauss(Matrix M) {
 
 
     // Inisialisasi
     Matrix N = new Matrix(1, 1);
-    N = Copy(M);
+    Copy(M,N);
 
     // Proses mengurutkan baris
     int[] zero = new int[N.row];
