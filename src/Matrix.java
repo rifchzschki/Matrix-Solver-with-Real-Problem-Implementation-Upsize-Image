@@ -143,6 +143,41 @@ public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan
         return M;
     }
 
+    // Operasi Baris Elementor
+    public void swap (int row1, int row2){
+        double [] temp = matrix[row1];
+        matrix [row1] = matrix[2];
+        matrix[row2] = temp;
+    }
+
+    public void kalirow(int row,  double k){
+        int j;
+        for (j = 0; j<col; j++){
+            matrix[row][j] *= k;
+        }
+    }
+
+    public void pluskalirow(int row1, int row2, double k){
+        int j;
+        for (j = 0; j<col; j++){
+            matrix[row1][j] += matrix[row2][j]*k;
+        }
+    }
+
+    public void minuskalirow(int row1, int row2, double k){
+        int j;
+        for (j = 0; j<col; j++){
+            matrix[row1][j] -= matrix[row2][j]*k;
+        }
+    }
+
+    public void plusrow(int row1, int row2){
+        pluskalirow(row1,row2,1);
+    }
+
+    public void minusrow(int row1, int row2){
+        minuskalirow(row1,row2,1);
+    }
     public static Matrix Hilbert(int N) {
         Matrix M = new Matrix(N, N + 1);
         for (int i = 0; i < N; i++) {
@@ -249,3 +284,5 @@ public static Matrix EliminasiGauss(Matrix M) {
 
 
 }
+}
+
