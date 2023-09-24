@@ -57,7 +57,7 @@ public class Matrix {
     
     
     
-    
+
     
     /* ********** INPUT/OUTPUT MATRIKS ********** */
     public void readMatrix() //procedure baca matrix dari input keyboard
@@ -123,7 +123,36 @@ public class Matrix {
         return M.col - 1;
     }
 
+    /* ********** TIPE MATRIKS ********** */
+    public static Matrix Identitas(int N) {
+        Matrix M = new Matrix(N, N);
+        for (int i = 0; i < N; i++)
+            M.matrix[i][i] = 1;
+        return M;
+    }
 
+    public static Matrix Hilbert(int N) {
+        Matrix M = new Matrix(N, N + 1);
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                M.matrix[i][j] = 1.0 / (i + j + 1);
+            }
+        }
+        return M;
+    }
+
+    /* ********** SIFAT MATRIKS ********** */
+    public static boolean IsIdentitas(Matrix M) {
+        boolean out = true;
+        for (int i = 0; i < M.row; i++) {
+            for (int j = 0; j < M.col; j++) {
+                if (!(((i == j) && M.matrix[i][j] == 1) || ((i != j) && M.matrix[i][j] == 0))) {
+                    out = false;
+                }
+            }
+        }
+        return out;
+    }
 
     public static void main(String args[])
     {
