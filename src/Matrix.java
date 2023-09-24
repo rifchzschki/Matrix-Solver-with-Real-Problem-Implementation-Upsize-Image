@@ -12,11 +12,15 @@ public class Matrix {
     public double[][] augmentedMatrix;
     Scanner scanner = new Scanner(System.in);
     /* ********** KONSTRUKTOR ********** */
+    
+    public Matrix(int baris, int kolom) {
+        this.row = baris;
+        this.col = kolom;
+        this.matrix = new double[baris][kolom];
+    }
     public double[][] createAugmentedMatrix(double[][] a, double[] b) //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
     {
         augmentedMatrix = new double[row][col+1];
-        
-        
         for(int i = 0; i < row; i++)
         {
             for(int j = 0; j < col+1; j++)
@@ -45,6 +49,12 @@ public class Matrix {
     {
         
         System.out.println("Jumlah Baris : ");//m
+        this.row = scanner.nextInt();
+        System.out.println("Jumlah Kolom : ");//n
+        this.col = scanner.nextInt();
+        matrix = new double[this.row][this.col]; //a[i][j]
+        array = new double[this.row]; //b[i]
+        for(int i = 0; i < this.row; i++)
         row = scanner.nextInt();
         System.out.println("Jumlah Kolom : ");//n
         col = scanner.nextInt();
