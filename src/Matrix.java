@@ -17,7 +17,8 @@ public class Matrix {
         this.row = baris;
         this.col = kolom;
         this.matrix = new double[baris][kolom];
-        this.b = new double[baris]; 
+        this.augmentedMatrix = new double[baris][kolom+1];
+        // this.b = new double[baris]; 
     }
     
     public Matrix(double[][] matrix) {
@@ -31,28 +32,25 @@ public class Matrix {
             {
                 this.matrix[i][j] = matrix[i][j];
             }
-            this.b[i] = b[i];
-        }
+        // this.b[i] = b[i];
     }
-    public double[][] createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
-    {
-        this.augmentedMatrix = new double[row][col+1];
+}
+public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
+{
         for(int i = 0; i < row; i++)
         {
             for(int j = 0; j < col+1; j++)
             {   
                 if (j == col)
                 {
-                    augmentedMatrix[i][j] = this.b[i];
+                    this.augmentedMatrix[i][j] = this.b[i];
                 }
                 else
                 {
-                augmentedMatrix[i][j] = this.matrix[i][j];
+                    this.augmentedMatrix[i][j] = this.matrix[i][j];
                 }
             }
         }
-
-        return augmentedMatrix;
     }
     
     
@@ -63,16 +61,8 @@ public class Matrix {
     /* ********** INPUT/OUTPUT MATRIKS ********** */
     public void readMatrix() //procedure baca matrix dari input keyboard
     {
-        
-        // System.out.println("Jumlah Baris : ");//m
-        // this.row = scanner.nextInt();
-        // System.out.println("Jumlah Kolom : ");//n
-        // this.col = scanner.nextInt();
-        
-        // for(int i = 0; i < this.row; i++)
-        // row = scanner.nextInt();
-        // System.out.println("Jumlah Kolom : ");//n
-        // col = scanner.nextInt();
+        this.b = new double[this.row];
+
         for(int i = 0; i < this.row; i++)
         {
             for(int j = 0; j < this.col; j++)
@@ -92,15 +82,25 @@ public class Matrix {
 
    
 
-    public void printMatrix() {
-        for (int i = 0; i < this.row; i++) {
-
-            for (int j = 0; j < this.col; j++) {
-                matrix[i][j]+=0; //menghilangkan -0
-                System.out.format(" %.2f ", matrix[i][j]);
+    public void printMatrix(boolean isAugmented) {
+        if (!isAugmented){
+            for (int i = 0; i < this.row; i++) {
+                for (int j = 0; j < this.col; j++) {
+                    this.matrix[i][j]+=0; //menghilangkan -0
+                    System.out.format(" %.2f ", this.matrix[i][j]);
+                }
+    
+                System.out.println();
             }
-
-            System.out.println();
+        } else {
+            for (int i = 0; i < this.row; i++) {
+                for (int j = 0; j < this.col + 1; j++) {
+                    this.augmentedMatrix[i][j]+=0; //menghilangkan -0
+                    System.out.format(" %.2f ", this.augmentedMatrix[i][j]);
+                }
+    
+                System.out.println();
+            }
         }
         System.out.println();
     }
@@ -122,12 +122,18 @@ public class Matrix {
         return M.col - 1;
     }
 
+
+
     // ***Operasi Matriks***
-    public Matrix reductionMat(Matrix M){
-        Matrix Mat[][];
+    public static void main(String args[])
+    {
 
-        this.Matrix(2,3);
-        return Mat;
-    }
+        Matrix testSpl = new Matrix(3,3);
+        testSpl.readMatrix();
+        testSpl.printMatrix(false);
+        testSpl.createAugmentedMatrix();
+        testSpl.printMatrix(true);
 
+
+}
 }
