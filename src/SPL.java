@@ -1,6 +1,7 @@
+package src;
 import java.util.Scanner;
 
-public class SPL {
+public class SPL{
     public int baris,kolom; //m itu baris,n itu kolom
     public double[][] matrix;
     public double[] b;
