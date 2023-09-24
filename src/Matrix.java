@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Matrix {
 
-    public int baris,kolom; //m itu baris,n itu kolom
+    public int Row,Col; //m itu baris,n itu kolom
     public int barisMin=0;
     public int kolomMin =0;
     public double[][] matrix;//ax
@@ -13,16 +13,22 @@ public class Matrix {
     public double[][] augmentedMatrix;
     Scanner scanner = new Scanner(System.in);
     /* ********** KONSTRUKTOR ********** */
+    
+    public Matrix(int baris, int kolom) {
+        this.Row = baris;
+        this.Col = kolom;
+        this.matrix = new double[baris][kolom];
+    }
     public double[][] createAugmentedMatrix(double[][] a, double[] b) //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
     {
-        augmentedMatrix = new double[baris][kolom+1];
+        augmentedMatrix = new double[Row][Col+1];
         
         
-        for(int i = 0; i < baris; i++)
+        for(int i = 0; i < Row; i++)
         {
-            for(int j = 0; j < kolom+1; j++)
+            for(int j = 0; j < Col+1; j++)
             {   
-                if (j == kolom)
+                if (j == Col)
                 {
                     augmentedMatrix[i][j] = b[i];
                 }
@@ -46,9 +52,9 @@ public class Matrix {
     {
         
         System.out.println("Jumlah Baris : ");//m
-        baris = scanner.nextInt();
+        this.Row = scanner.nextInt();
         System.out.println("Jumlah Kolom : ");//n
-        kolom = scanner.nextInt();
+        this.Col = scanner.nextInt();
         matrix = new double[baris][kolom]; //a[i][j]
         array = new double[baris]; //b[i]
         for(int i = 0; i < baris; i++)
