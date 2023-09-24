@@ -18,10 +18,25 @@ public class Matrix {
         this.row = baris;
         this.col = kolom;
         this.matrix = new double[baris][kolom];
+        this.b = new double[baris]; 
+    }
+    
+    public Matrix(double[][] matrix) {
+        // Konstruktor dari tabel
+        this.row = matrix.length;
+        this.col = matrix[0].length;
+        this.matrix = new double[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++)
+        {
+            for (int j = 0; j < matrix[0].length; j++)
+            {
+                this.matrix[i][j] = matrix[i][j];
+            }
+        }
     }
     public double[][] createAugmentedMatrix(double[][] a, double[] b) //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
     {
-        augmentedMatrix = new double[row][col+1];
+        this.augmentedMatrix = new double[row][col+1];
         for(int i = 0; i < row; i++)
         {
             for(int j = 0; j < col+1; j++)
@@ -49,30 +64,27 @@ public class Matrix {
     public void readMatrix() //procedure baca matrix dari input keyboard
     {
         
-        System.out.println("Jumlah Baris : ");//m
-        this.row = scanner.nextInt();
-        System.out.println("Jumlah Kolom : ");//n
-        this.col = scanner.nextInt();
-        matrix = new double[this.row][this.col]; //a[i][j]
-        array = new double[this.row]; //b[i]
+        // System.out.println("Jumlah Baris : ");//m
+        // this.row = scanner.nextInt();
+        // System.out.println("Jumlah Kolom : ");//n
+        // this.col = scanner.nextInt();
+        
+        // for(int i = 0; i < this.row; i++)
+        // row = scanner.nextInt();
+        // System.out.println("Jumlah Kolom : ");//n
+        // col = scanner.nextInt();
         for(int i = 0; i < this.row; i++)
-        row = scanner.nextInt();
-        System.out.println("Jumlah Kolom : ");//n
-        col = scanner.nextInt();
-        matrix = new double[row][col]; //a[i][j]
-        array = new double[row]; //b[i]
-        for(int i = 0; i < row; i++)
         {
-            for(int j = 0; j < col; j++)
+            for(int j = 0; j < this.col; j++)
             {   
                 System.out.println("Isi elemen a ke [" + (i) + "]" +"[" + (j) + "] : ");
                 double elemen = scanner.nextDouble();
-                matrix[i][j] = elemen;//koef a[i][j]
+                this.matrix[i][j] = elemen;//koef a[i][j]
                 
             }
             System.out.println("Isi elemen b ke [" + (i) + "] : ");
             double elemen = scanner.nextDouble(); //elemen b[i]
-            array[i]=elemen;
+            this.array[i]=elemen;
             // scanner.close();
         }
         // return matrix;
