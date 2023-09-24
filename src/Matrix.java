@@ -1,4 +1,4 @@
-
+package src;
 import java.util.Scanner;
 
 public class Matrix {
@@ -12,7 +12,7 @@ public class Matrix {
     public double[][] augmentedMatrix;
     Scanner scanner = new Scanner(System.in);
     /* ********** KONSTRUKTOR ********** */
-    
+
     public Matrix(int baris, int kolom) {
         this.row = baris;
         this.col = kolom;
