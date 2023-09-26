@@ -4,12 +4,15 @@ import java.util.*;
 public class Matrix {
 
     private int row,col; //m itu baris,n itu kolom
+<<<<<<< HEAD
     private int rowmax=100,colmax=100;
     // private int rowMin=0;
     // private int colMin =0;
+=======
+    
+>>>>>>> 88c100b6d1b1115be8132c5aef36c3f2362f2d9b
     private double[][] matrix;//ax
-    // private double[] b;//b
-    // private double[][] augmentedMatrix;
+    
     public static final double decPoint = 10000000000d;
     Scanner scanner = new Scanner(System.in);
     /* ********** KONSTRUKTOR ********** */
@@ -223,6 +226,9 @@ public class Matrix {
         testSpl.eselonBaris();
         System.out.println("\n");
         testSpl.printMatrix();
+        testSpl.eselonBarisReduksi();
+        System.out.println("\n");
+        testSpl.printMatrix();
 
     }
 
@@ -239,35 +245,117 @@ public class Matrix {
         }
     }
 
+    // public void eselonBaris() {
+
+
+    
+
+    //     // Proses mengurutkan baris
+    //     int[] zero = new int[this.row];
+    //     for (int i = 0; i < this.row; i++) { // Kalkulasi jumlah 0
+    //         zero[i] = 0;
+    //         int j = 0;
+    //         while (j < this.col && matrix[i][j] == 0) {
+    //             zero[i]++;
+    //             j++;
+    //         }
+    //     }
+
+    //     for (int i = 0; i < this.row; i++) { // Algoritma Pengurutan
+    //         for (int j = 0; j < this.row - 1; j++) {
+    //             if (zero[j] > zero[j + 1]) {
+    //                 int temp;
+    //                 swap(j, j + 1);
+    //                 temp = zero[j];
+    //                 zero[j] = zero[j + 1];
+    //                 zero[j + 1] = temp;
+    //             }
+    //         }
+    //     }
+
+    //     // Proses mereduksi baris
+    //     int indent = 0;
+
+    //     for (int i = 0; i < this.row; i++) {
+    //         // Mencari sel bernilai
+    //         while (i + indent < this.col && this.matrix[i][i + indent] == 0) {
+    //             indent++;
+    //         }
+
+    //         if (i + indent < this.col-1) {
+    //             // Ubah angka depan jadi 1
+    //             kalirow(i, 1 / this.matrix[i][i + indent]);
+
+    //             // Pengurangan baris dibawahnya
+    //             for (int j = i + 1; j < this.row; j++) {
+    //                 if (this.matrix[j][i + indent] != 0) {
+    //                     kalirow(j, 1 / this.matrix[j][i + indent]);
+    //                     minusrow(j, i);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     approximate();
+    // }
+    
+    // public void eselonBarisReduksi()
+    // {
+    //     eselonBaris();
+    //     int indent =0;
+
+    //     for (int i = 0; i < this.row; i++) {
+    //         // Pencarian sel tidak nol
+    //         while (i + indent <this.col && matrix[i][i + indent] == 0) {
+    //             indent++;
+    //         }
+
+    //         if (i + indent < this.col) {
+
+    //             // Pengurangan baris diatasnya
+    //             for (int j = i - 1; j >= 0; j--) {
+    //                 if (matrix[j][i + indent] != 0) {
+    //                     minuskalirow(j, i, -matrix[j][i + indent]);
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     approximate();
+
+    // }
+
+
     public void eselonBaris() {
+        int rowPos = 0; // Menunjukkan posisi baris saat ini
+        int colPos = 0; // Menunjukkan posisi kolom saat ini
 
-
-        // Inisialisasi
-        // Matrix N = new Matrix(1, 1);
-        // Copy(M,N);
-
-        // Proses mengurutkan baris
-        int[] zero = new int[this.row];
-        for (int i = 0; i < this.row; i++) { // Kalkulasi jumlah 0
-            zero[i] = 0;
-            int j = 0;
-            while (j < this.col && matrix[i][j] == 0) {
-                zero[i]++;
-                j++;
+        while (rowPos < this.row && colPos < this.col) {
+            // Cari baris dengan elemen pertama yang bukan nol
+            int nonZeroRow = rowPos;
+            while (nonZeroRow < this.row && matrix[nonZeroRow][colPos] == 0) {
+                nonZeroRow++;
             }
-        }
 
-        for (int i = 0; i < this.row; i++) { // Algoritma Pengurutan
-            for (int j = 0; j < this.row - 1; j++) {
-                if (zero[j] > zero[j + 1]) {
-                    int temp;
-                    swap(j, j + 1);
-                    temp = zero[j];
-                    zero[j] = zero[j + 1];
-                    zero[j + 1] = temp;
+            if (nonZeroRow < this.row) {
+                // Swap baris dengan baris yang memiliki elemen pertama yang bukan nol
+                swap(rowPos, nonZeroRow);
+
+                // Buat elemen pertama menjadi 1
+                double pivot = matrix[rowPos][colPos];
+                kalirow(rowPos, 1.0 / pivot);
+
+                // Eliminasi baris-baris di bawahnya
+                for (int i = rowPos + 1; i < this.row; i++) {
+                    double factor = matrix[i][colPos];
+                    minuskalirow(i, rowPos, factor);
                 }
+
+                rowPos++; // Pindah ke baris berikutnya
             }
+
+            colPos++; // Pindah ke kolom berikutnya
         }
+<<<<<<< HEAD
 
         // Proses mereduksi baris
         int indent = 0;
@@ -287,6 +375,43 @@ public class Matrix {
                     if (this.matrix[j][i + indent] != 0) {
         for (i =0;i<row;i++){
             for (j =0 ; j<col;j++){
+=======
+    }
+
+    public void eselonBarisReduksi() {
+        eselonBaris(); // Panggil eselonBaris terlebih dahulu untuk mendapatkan bentuk eselon baris
+
+        // Mulai dari baris terbawah, kerja ke atas untuk menghilangkan elemen di atas
+        // pivot
+        for (int rowPos = this.row - 1; rowPos > 0; rowPos--) {
+            int colPos = 0;
+            while (colPos < this.col && matrix[rowPos][colPos] == 0) {
+                colPos++;
+            }
+
+            if (colPos < this.col) {
+                // Eliminasi elemen di atas pivot
+                for (int i = rowPos - 1; i >= 0; i--) {
+                    double factor = matrix[i][colPos];
+                    minuskalirow(i, rowPos, factor);
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+    
+    public void approximate()
+    {
+        for (int i =0;i<row;i++)
+        {
+            for (int j =0 ; j<col;j++)
+            {
+>>>>>>> 88c100b6d1b1115be8132c5aef36c3f2362f2d9b
                 matrix[i][j]=(Math.round(matrix[i][j] * decPoint)/decPoint);
             }
         }
