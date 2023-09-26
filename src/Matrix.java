@@ -279,7 +279,6 @@ public class Matrix {
 
 
     
-<<<<<<< HEAD
     public void approximate()
     {
         for (int i =0;i<row;i++)
@@ -290,7 +289,6 @@ public class Matrix {
             }
         }
         }
-=======
     // public void approximate()
     // {
     //     for (int i =0;i<row;i++)
@@ -302,19 +300,18 @@ public class Matrix {
     //     }
     // }
 
- public inverseGausJordan()
- {
-    Matrix inverse = new Matrix(this.row,this.col*2);
+//  public inverseGausJordan()
+//  {
+//     Matrix inverse = new Matrix(this.row,this.col*2);
 
- }
-
-
+//  }
 
 
 
 
 
-}
->>>>>>> 0175a5090378595b3b23e8ca87ddf38c2780157d
+
+
+// }
 
 }
