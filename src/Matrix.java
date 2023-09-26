@@ -114,6 +114,62 @@ public class Matrix {
         return result;
     }
 
+    public double getDeterminant() {
+        int size = this.row;
+        double[][] M = new double[size][size];
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                M[i][j] = matrix[i][j]; 
+            }
+        }
+
+        double determinant = 1.0;
+        int swaps = 0;
+
+        for (int i = 0; i < size; i++) {
+            int pivot = i;
+
+            // Cari baris pivot yang elemen diagonalnya bukan nol.
+            for (int j = i; j < size; j++) {
+                if (Math.abs(M[j][i]) > Math.abs(M[pivot][i])) {
+                    pivot = j;
+                }
+            }
+
+            // Jika elemen diagonal pivot adalah nol, maka determinan adalah nol.
+            if (Math.abs(M[pivot][i]) < 1e-9) {
+                return 0.0;
+            }
+
+            // Tukar baris jika pivot bukan pada baris i.
+            if (pivot != i) {
+                swaps++;
+                double[] temp = M[i];
+                M[i] = M[pivot];
+                M[pivot] = temp;
+            }
+
+            // Kurangi baris-baris di bawah pivot untuk membuat elemen di bawah pivot menjadi nol.
+            for (int j = i + 1; j < size; j++) {
+                double factor = M[j][i] / M[i][i];
+                for (int k = i; k < size; k++) {
+                    M[j][k] -= factor * M[i][k];
+                }
+            }
+
+            // Kalikan determinan dengan elemen diagonal (pivot).
+            determinant *= M[i][i];
+        }
+
+        // Jika jumlah tukar baris ganjil, maka determinan negatif.
+        if (swaps % 2 == 1) {
+            determinant = -determinant;
+        }
+
+        return determinant;
+    }
+
 
     
     
@@ -180,8 +236,12 @@ public class Matrix {
     public static void main(String args[]){
 
         Matrix testSpl = new Matrix(3,4);
+        Matrix A = new Matrix(testSpl);
         testSpl.readMatrix();
         testSpl.printMatrix();
+        System.out.println("\n");
+        A = A.subcramer(testSpl, 0);
+        A.printMatrix();
         testSpl.eselonBaris();
         System.out.println("\n");
         testSpl.printMatrix();
@@ -203,6 +263,31 @@ public class Matrix {
                 this.matrix[i][j] = in.matrix[i][j];
             }
         }
+    }
+
+    public Matrix subcramer(Matrix m, int k){
+        double [] temp = new double[m.row];
+        int colcramer = m.col-1;
+        for (int i =0; i< m.row;i++){
+            for (int j =0; j < m.col;j++){
+                if (j == m.col-1){
+                    temp[i] = m.matrix[i][j];
+                }
+            }
+        }
+
+        Matrix N = new Matrix(m);
+        N.Copy(m);
+        N.col -= 1;
+        for (int i =0; i< colcramer;i++){
+            for (int j =0; j < this.row;j++){
+                if (i == k){
+                    N.matrix[j][i] = temp[j];
+                }
+            }
+        }
+
+        return N;
     }
 
 
@@ -279,7 +364,6 @@ public class Matrix {
 
 
     
-<<<<<<< HEAD
     public void approximate()
     {
         for (int i =0;i<row;i++)
@@ -290,7 +374,6 @@ public class Matrix {
             }
         }
         }
-=======
     // public void approximate()
     // {
     //     for (int i =0;i<row;i++)
@@ -302,19 +385,17 @@ public class Matrix {
     //     }
     // }
 
- public inverseGausJordan()
- {
-    Matrix inverse = new Matrix(this.row,this.col*2);
+//  public inverseGausJordan()
+//  {
+//     Matrix inverse = new Matrix(this.row,this.col*2);
 
- }
-
-
+//  }
 
 
 
 
 
-}
->>>>>>> 0175a5090378595b3b23e8ca87ddf38c2780157d
+
 
 }
+
