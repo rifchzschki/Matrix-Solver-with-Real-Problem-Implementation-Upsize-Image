@@ -18,7 +18,7 @@ public class Menu{
 
         System.out.print("Pilihan Menu : ");
         int input = scanner.nextInt();
-
+        
         return input;
     }
 
