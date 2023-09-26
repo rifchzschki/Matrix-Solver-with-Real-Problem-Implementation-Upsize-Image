@@ -114,6 +114,65 @@ public class Matrix {
         return result;
     }
 
+    public double getDeterminant() {
+        int size = this.row;
+        double[][] M = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                M[i][j] = matrix[i][j]; 
+            }
+        }
+
+        double determinant = 1.0;
+        int swaps = 0;
+
+        for (int i = 0; i < size; i++) {
+            int pivot = i;
+
+            // Cari baris pivot yang elemen diagonalnya bukan nol.
+            for (int j = i; j < size; j++) {
+                if (Math.abs(M[j][i]) > Math.abs(M[pivot][i])) {
+                    pivot = j;
+                }
+            }
+
+    
+            // Jika elemen diagonal pivot adalah nol, maka determinan adalah nol.
+            if (Math.abs(M[pivot][i]) < 1e-9) {
+                return 0.0;
+            }
+
+    
+            // Tukar baris jika pivot bukan pada baris i.
+            if (pivot != i) {
+                swaps++;
+                double[] temp = M[i];
+                M[i] = M[pivot];
+                M[pivot] = temp;
+            }
+
+    
+            // Kurangi baris-baris di bawah pivot untuk membuat elemen di bawah pivot menjadi nol.
+            for (int j = i + 1; j < size; j++) {
+                double factor = M[j][i] / M[i][i];
+                for (int k = i; k < size; k++) {
+                    M[j][k] -= factor * M[i][k];
+                }
+            }
+
+            // Kalikan determinan dengan elemen diagonal (pivot).
+            determinant *= M[i][i];
+        }
+    
+        // Jika jumlah tukar baris ganjil, maka determinan negatif.
+        if (swaps % 2 == 1) {
+            determinant = -determinant;
+        }
+
+        return determinant;
+    }
+
+    
 
     
     
@@ -121,7 +180,14 @@ public class Matrix {
     public static Matrix Identitas(int N) {
         Matrix M = new Matrix(N, N);
         for (int i = 0; i < N; i++)
+        {
+            for (int j =0;j<N;j++)
+            {
+                M.matrix[i][j]=0;
+            
+            }
             M.matrix[i][i] = 1;
+        }
         return M;
     }
 
@@ -164,11 +230,11 @@ public class Matrix {
     }
 
     /* ********** SIFAT MATRIX ********** */
-    public static boolean IsIdentitas(Matrix M) {
+    public boolean IsIdentitas() {
         boolean out = true;
-        for (int i = 0; i < M.row; i++) {
-            for (int j = 0; j < M.col; j++) {
-                if (!(((i == j) && M.matrix[i][j] == 1) || ((i != j) && M.matrix[i][j] == 0))) {
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                if (!(((i == j) && matrix[i][j] == 1) || ((i != j) && matrix[i][j] == 0))) {
                     out = false;
                 }
             }
@@ -180,13 +246,16 @@ public class Matrix {
     public static void main(String args[]){
 
         Matrix testSpl = new Matrix(3,4);
+        // Matrix A = new Matrix(testSpl);
         testSpl.readMatrix();
         testSpl.printMatrix();
-        testSpl.eselonBaris();
+        // testSpl.eselonBaris();
+        // System.out.println("\n");
+        // testSpl.printMatrix();
+        // testSpl.eselonBarisReduksi();
         System.out.println("\n");
-        testSpl.printMatrix();
-        testSpl.eselonBarisReduksi();
-        System.out.println("\n");
+        // testSpl.printMatrix();
+        testSpl.inverseGausJordan();
         testSpl.printMatrix();
 
     }
@@ -203,6 +272,31 @@ public class Matrix {
                 this.matrix[i][j] = in.matrix[i][j];
             }
         }
+    }
+
+    public Matrix subcramer(Matrix m, int k){
+        double [] temp = new double[m.row];
+        int colcramer = m.col-1;
+        for (int i =0; i< m.row;i++){
+            for (int j =0; j < m.col;j++){
+                if (j == m.col-1){
+                    temp[i] = m.matrix[i][j];
+                }
+            }
+        }
+
+        Matrix N = new Matrix(m);
+        N.Copy(m);
+        N.col -= 1;
+        for (int i =0; i< colcramer;i++){
+            for (int j =0; j < this.row;j++){
+                if (i == k){
+                    N.matrix[j][i] = temp[j];
+                }
+            }
+        }
+
+        return N;
     }
 
 
@@ -239,18 +333,7 @@ public class Matrix {
         }
     }
 
-    public boolean isIdentitas(int N)
-    {
-        boolean check = true;
-        for (int i =0;i<=N;i++)
-        {
-            if (matrix[i][i]!=1)
-            {
-                check = false;
-            }
-        }
-        return check;
-    }
+   
 
     public void eselonBarisReduksi() {
         eselonBaris(); // Panggil eselonBaris terlebih dahulu untuk mendapatkan bentuk eselon baris
@@ -300,18 +383,135 @@ public class Matrix {
     //     }
     // }
 
-//  public inverseGausJordan()
-//  {
-//     Matrix inverse = new Matrix(this.row,this.col*2);
+    public boolean isIdentity(int N)//mengecheck apakah matriks[N][N] adalah matriks identitas
+    {
+        boolean check = true;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!(((i == j) && matrix[i][j] == 1) || ((i != j) && matrix[i][j] == 0))) {
+                    check = false;
+                }
+            }
+        }
+        return check;
+    }
 
-//  }
+    //  public static Matrix Identitas(int N) {
+    //     Matrix M = new Matrix(N, N);
+    //     for (int i = 0; i < N; i++)
+    //         M.matrix[i][i] = 1;
+    //     return M;
+    // }
+
+    public void inverseGausJordan()
+    {
+        //asumsi matrix NxN
+        Matrix inverse = new Matrix(this.row,(this.row)*2);
+        Matrix matrixIdentity = new Matrix(this.row,this.row);
+        matrixIdentity=Identitas(this.row);
+        int k=0,l=0;
+        //buat matriks baru yang berisi gabungan matrix dan matrix identitas
+        for (int i = 0;i<this.row;i++)
+        {
+            
+            for (int j = 0 ;j<(this.row)*2;j++)
+            {
+                if (j<(this.col-1))
+                {
+                    inverse.matrix[i][j]=this.matrix[i][j];
+                }
+                else 
+                {
+                    inverse.matrix[i][j]=matrixIdentity.matrix[i][l];
+                    l++;
+                    if (l>this.row-1)
+                    {
+                        l =0;
+                    }
+                }
+                
+            }
+            
+        }
+       //melakukan operasi eselon baris reduksi pada matrix inverse
+        inverse.eselonBarisReduksi();
+
+        //mengecek apakah adanya baris yang bernilai 0
+        // int [] zeroCount=new int[this.row];
+        //menghitung nilai 0 pada tiap baris
+        int temp;
+        boolean inverseExist = true;
+        for(int i = 0 ; i <this.row;i++)
+        {
+            temp =0;
+            for (int j =0 ;j<this.row;j++)
+            {
+                if (inverse.matrix[i][j]==0)
+                {
+                    temp++;
+                }
+            }
+            if (temp == this.row)
+            {
+                
+                inverseExist=false;
+                break;
+            }
+        }
+        inverse.printMatrix();
+        if (inverseExist)
+        {
+            //mengembalikan hasil inverse ke this.matrix
+            for (int i = 0;i < this.row;i++)
+            {
+                for ( int j = this.row;j<(this.row)*2;j++)
+                {
+                    this.matrix[i][k]=inverse.matrix[i][j];
+                    k++;
+                    if (k>this.row-1)
+                        {
+                            k =0;
+                        }
+                }
+            }
+            //contoh solusi jadi
+            double[] solusi = new double[this.row];
+            double temp1=0;
+            int x =0;
+            for (int i = 0;i < this.row;i++)
+            {
+                temp1=0;
+                for ( int j = 0;j<this.col-1;j++)
+                {
+                    temp1+=this.matrix[i][j]*this.matrix[x][this.col-1];
+                    x++;
+                    if (x>this.row-1)
+                    {
+                        x=0;
+                    }
+                }
+                solusi[i]=temp1;
+            }
+            for (int i =0;i<this.row;i++)
+            {
+                System.out.println("solusi  X" + (i+1) + " : " + solusi[i]);
+            }
+        }
+        else
+        {
+            System.out.println("KONTOL!!!");
+            
+        }
+        
+   
+
+    }
 
 
 
 
 
 
-
-// }
 
 }
+
