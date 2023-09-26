@@ -117,7 +117,6 @@ public class Matrix {
     public double getDeterminant() {
         int size = this.row;
         double[][] M = new double[size][size];
-
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 M[i][j] = matrix[i][j]; 
@@ -137,11 +136,13 @@ public class Matrix {
                 }
             }
 
+    
             // Jika elemen diagonal pivot adalah nol, maka determinan adalah nol.
             if (Math.abs(M[pivot][i]) < 1e-9) {
                 return 0.0;
             }
 
+    
             // Tukar baris jika pivot bukan pada baris i.
             if (pivot != i) {
                 swaps++;
@@ -150,6 +151,7 @@ public class Matrix {
                 M[pivot] = temp;
             }
 
+    
             // Kurangi baris-baris di bawah pivot untuk membuat elemen di bawah pivot menjadi nol.
             for (int j = i + 1; j < size; j++) {
                 double factor = M[j][i] / M[i][i];
@@ -161,7 +163,7 @@ public class Matrix {
             // Kalikan determinan dengan elemen diagonal (pivot).
             determinant *= M[i][i];
         }
-
+    
         // Jika jumlah tukar baris ganjil, maka determinan negatif.
         if (swaps % 2 == 1) {
             determinant = -determinant;
@@ -170,6 +172,7 @@ public class Matrix {
         return determinant;
     }
 
+    
 
     
     
