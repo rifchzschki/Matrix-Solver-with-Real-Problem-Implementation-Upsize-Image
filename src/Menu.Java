@@ -1,7 +1,11 @@
 package src;
 import java.util.Scanner;
-public class Menu {
+
+public class Menu{
     Scanner scanner = new Scanner(System.in);
+    public Menu() {
+
+    }
     int listmenu(){
         System.out.println("----------Menu----------");
         System.out.println("1.Sistem Persamaan Linier");
@@ -13,10 +17,9 @@ public class Menu {
         System.out.println("7.Keluar\n");
 
         System.out.print("Pilihan Menu : ");
-        String input = scanner.nextLine();
-        int pilihan = Integer.parseInt(input);
+        int input = scanner.nextInt();
 
-        return pilihan;
+        return input;
     }
 
     int subMenuSPL(){
@@ -27,10 +30,9 @@ public class Menu {
         System.out.println("4.Kaidah Cramer");
 
         System.out.print("Pilihan Metode : ");
-        String input = scanner.nextLine();
-        int pilihan = Integer.parseInt(input);
+        int input = scanner.nextInt();
 
-        return pilihan;
+        return input;
     }
 
     int subMenuDeterminan(){
@@ -39,11 +41,9 @@ public class Menu {
         System.out.println("2.Ekspansi Kofaktor");
 
         System.out.print("Pilihan Metode : ");
-        String input = scanner.nextLine();
-        int pilihan = Integer.parseInt(input);
+        int input = scanner.nextInt();
 
-
-        return pilihan;
+        return input;
     }
 
     int subMenuBalikan(){
@@ -52,10 +52,9 @@ public class Menu {
         System.out.println("2.Adjoint");
 
         System.out.print("Pilihan Metode : ");
-        String input = scanner.nextLine();
-        int pilihan = Integer.parseInt(input);
+        int input = scanner.nextInt();
 
-        return pilihan;
+        return input;
     }
 
     int subMenuinput(){
@@ -64,14 +63,12 @@ public class Menu {
         System.out.println("2.File");
 
         System.out.print("Pilihan Metode Input : ");
-        String input = scanner.nextLine();
-        int pilihan = Integer.parseInt(input);
+        int input = scanner.nextInt();
 
-
-        return pilihan;
+        return input;
     }
 
-    void run(){
+    public void run(){
         int menu,subSpl, subInput;
         menu = listmenu();
         while (menu < 1 || menu > 7){
@@ -85,11 +82,22 @@ public class Menu {
                 System.out.println("\nMasukan Tidak Valid\n");
                 subSpl = subMenuSPL();
             }
+        
+        subInput = subMenuinput();
+        while (subInput < 1 || subInput > 2){
+            System.out.println("\nMasukan Tidak Valid\n");
             subInput = subMenuinput();
-            while (subInput < 1 || subInput > 2){
-                System.out.println("\nMasukan Tidak Valid\n");
-                subInput = subMenuinput();
-            }
+        }
+        if (subInput == 1){
+            System.out.print("\nMasukan Baris : ");
+            int row = scanner.nextInt();
+            System.out.print("\nMasukan Kolom : ");
+            int col = scanner.nextInt();
+            Matrix m = new Matrix(row, col);
+            m.readMatrix();
+            m.printMatrix(false);
+
+        }
         }
 
         scanner.close();
@@ -99,3 +107,4 @@ public class Menu {
     
     }
 }
+
