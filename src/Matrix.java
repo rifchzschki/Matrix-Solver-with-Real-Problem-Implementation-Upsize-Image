@@ -246,7 +246,7 @@ public static Matrix EliminasiGauss(Matrix M) {
         for (int j = 0; j < N.row - 1; j++) {
             if (zero[j] > zero[j + 1]) {
                 int temp;
-                N.Swap(j, j + 1);
+                N.swap(j, j + 1);
                 temp = zero[j];
                 zero[j] = zero[j + 1];
                 zero[j + 1] = temp;
@@ -265,13 +265,13 @@ public static Matrix EliminasiGauss(Matrix M) {
 
         if (i + indent < N.col) {
             // Ubah angka depan jadi 1
-            N.KaliBaris(i, 1 / N.matrix[i][i + indent]);
+            N.kalirow(i, 1 / N.matrix[i][i + indent]);
 
             // Pengurangan baris dibawahnya
             for (int j = i + 1; j < N.row; j++) {
                 if (N.matrix[j][i + indent] != 0) {
-                    N.KaliBaris(j, 1 / N.matrix[j][i + indent]);
-                    N.MinusBaris(j, i);
+                    N.kalirow(j, 1 / N.matrix[j][i + indent]);
+                    N.minusrow(j, i);
                 }
             }
         }
