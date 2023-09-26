@@ -225,28 +225,28 @@ public static void Copy(Matrix in, Matrix out){
     }
 }
 
-public static Matrix EliminasiGauss(Matrix M) {
+public Matrix EliminasiGauss() {
 
 
     // Inisialisasi
-    Matrix N = new Matrix(1, 1);
-    Copy(M,N);
+    // Matrix N = new Matrix(1, 1);
+    // Copy(M,N);
 
     // Proses mengurutkan baris
-    int[] zero = new int[N.row];
-    for (int i = 0; i < N.row; i++) { // Kalkulasi jumlah 0
+    int[] zero = new int[this.row];
+    for (int i = 0; i < this.row; i++) { // Kalkulasi jumlah 0
         zero[i] = 0;
         int j = 0;
-        while (j < N.col && N.matrix[i][j] == 0) {
+        while (j < this.col && this.matrix[i][j] == 0) {
             zero[i]++;
             j++;
         }
     }
-    for (int i = 0; i < N.row; i++) { // Algoritma Pengurutan
-        for (int j = 0; j < N.row - 1; j++) {
+    for (int i = 0; i < this.row; i++) { // Algoritma Pengurutan
+        for (int j = 0; j < this.row - 1; j++) {
             if (zero[j] > zero[j + 1]) {
                 int temp;
-                N.swap(j, j + 1);
+                this.swap(j, j + 1);
                 temp = zero[j];
                 zero[j] = zero[j + 1];
                 zero[j + 1] = temp;
