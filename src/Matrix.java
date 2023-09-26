@@ -2,30 +2,12 @@ package src;
 import java.util.*;
 
 public class Matrix {
-
     private int row,col; //m itu baris,n itu kolom
-<<<<<<< HEAD
-    private int rowmax=100,colmax=100;
-    // private int rowMin=0;
-    // private int colMin =0;
-=======
-    
->>>>>>> 88c100b6d1b1115be8132c5aef36c3f2362f2d9b
     private double[][] matrix;//ax
-    
     public static final double decPoint = 10000000000d;
     Scanner scanner = new Scanner(System.in);
     /* ********** KONSTRUKTOR ********** */
 
-    public Matrix() {
-        this.col = 0;
-        this.row = 0;
-        for (int i = 0; i <= this.rowmax; i++) {
-            for(int j = 0; j<= this.colmax; j++) {
-                this.matrix[i][j] = 0;
-            }
-        }
-    }
     public Matrix(int baris, int kolom) {
         this.row = baris;
         this.col = kolom;
@@ -35,18 +17,18 @@ public class Matrix {
         // createAugmentedMatrix();
     }
     
-    public Matrix(double[][] matrix) {
+    public Matrix(Matrix m) {
         // Konstruktor dari tabel
-        this.row = matrix.length;
-        this.col = matrix[0].length;
-        this.matrix = new double[matrix.length][matrix[0].length];
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[0].length; j++)
-            {
-                this.matrix[i][j] = matrix[i][j];
-            }
+        this.row = m.row;
+        this.col = m.col;
+        this.matrix = new double[m.row][m.col];
+        // for (int i = 0; i < matrix.length; i++){
+        //     for (int j = 0; j < matrix[0].length; j++)
+        //     {
+        //         this.matrix[i][j] = matrix[i][j];
+        //     }
         // this.b[i] = b[i];
-        }
+        // }
     }
     // public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
     // {
@@ -128,13 +110,17 @@ public class Matrix {
     //     return 0;
     // }
 
-    // public int GetLastIdxBrs(Matrix M) {
-    //     return M.row - 1;
-    // }
+    public double GetElmt(int i, int j){
+        return this.matrix[i][j];
+    }
 
-    // public int GetLastIdxKol(Matrix M) {
-    //     return M.col - 1;
-    // }
+    public int GetLastIdxBrs() {
+        return this.row - 1;
+    }
+
+    public int GetLastIdxKol() {
+        return this.col - 1;
+    }
 
     // *** Operasi perkalian matriks ***
     public static Matrix multiple (Matrix m, double k){
@@ -232,15 +218,16 @@ public class Matrix {
 
     }
 
-    public static void Copy(Matrix in, Matrix out){
-        out.row = in.row;
-        out.col = in.col;
-        out.matrix = new double[in.row][in.col];
+    public void Copy(Matrix in){
+        
+        this.row = in.row;
+        this.col = in.col;
+        this.matrix = new double[in.row][in.col];
 
 
         for(int i=0; i<in.row;++i){
             for(int j=0; j<in.col; ++j){
-                out.matrix[i][j] = in.matrix[i][j];
+                this.matrix[i][j] = in.matrix[i][j];
             }
         }
     }
@@ -355,27 +342,6 @@ public class Matrix {
 
             colPos++; // Pindah ke kolom berikutnya
         }
-<<<<<<< HEAD
-
-        // Proses mereduksi baris
-        int indent = 0;
-
-        for (int i = 0; i < this.row; i++) {
-            // Mencari sel bernilai
-            while (i + indent < this.col && this.matrix[i][i + indent] == 0) {
-                indent++;
-            }
-
-            if (i + indent < this.col) {
-                // Ubah angka depan jadi 1
-                kalirow(i, 1 / this.matrix[i][i + indent]);
-
-                // Pengurangan baris dibawahnya
-                for (int j = i + 1; j < this.row; j++) {
-                    if (this.matrix[j][i + indent] != 0) {
-        for (i =0;i<row;i++){
-            for (j =0 ; j<col;j++){
-=======
     }
 
     public void eselonBarisReduksi() {
@@ -411,16 +377,9 @@ public class Matrix {
         {
             for (int j =0 ; j<col;j++)
             {
->>>>>>> 88c100b6d1b1115be8132c5aef36c3f2362f2d9b
                 matrix[i][j]=(Math.round(matrix[i][j] * decPoint)/decPoint);
             }
         }
         }
 
-    }
-
-    
-}
-}
-}
 }
