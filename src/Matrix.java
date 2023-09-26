@@ -1,12 +1,9 @@
 package src;
-import java.util.Scanner;
+import java.util.*;
 
 public class Matrix {
-
     private int row,col; //m itu baris,n itu kolom
-    
     private double[][] matrix;//ax
-    
     public static final double decPoint = 10000000000d;
     Scanner scanner = new Scanner(System.in);
     /* ********** KONSTRUKTOR ********** */
@@ -17,30 +14,46 @@ public class Matrix {
         this.matrix = new double[baris][kolom];
     }
     
-    public Matrix(double[][] matrix) {
-        // Konstruktor dari tabel
-        this.row = matrix.length;
-        this.col = matrix[0].length;
-        this.matrix = new double[matrix.length][matrix[0].length];
-        for (int i = 0; i < matrix.length; i++)
-        {
-            for (int j = 0; j < matrix[0].length; j++)
-            {
-                this.matrix[i][j] = matrix[i][j];
-            }
-        
+    public Matrix(Matrix m) {
+        // Konstruktor dari matrix
+        this.row = m.row;
+        this.col = m.col;
+        this.matrix = new double[m.row][m.col];
+        // for (int i = 0; i < matrix.length; i++){
+        //     for (int j = 0; j < matrix[0].length; j++)
+        //     {
+        //         this.matrix[i][j] = matrix[i][j];
+        //     }
+        // this.b[i] = b[i];
+        // }
     }
-}
-
+    // public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
+    // {
+    //         for(int i = 0; i < row; i++)
+    //         {
+    //             for(int j = 0; j < col+1; j++)
+    //             {   
+    //                 if (j == col)
+    //                 {
+    //                     this.augmentedMatrix[i][j] = this.b[i];
+    //                 }
+    //                 else
+    //                 {
+    //                     this.augmentedMatrix[i][j] = this.matrix[i][j];
+    //                 }
+    //             }
+    //         }
+    //     }
+    
     
     
     
 
     
     /* ********** INPUT/OUTPUT MATRIX ********** */
-    public void readMatrix() //procedure baca matrix dari input keyboard
-    {
-       
+    public void readMatrix(){ //procedure baca matrix dari input keyboard
+    
+        // this.b = new double[this.row];
 
         for(int i = 0; i < this.row; i++)
         {
@@ -66,9 +79,29 @@ public class Matrix {
 
             System.out.print("\n");
         }
-        } 
+    } 
     
 
+    /* ********** SELEKTOR ********** */
+    // public int GetFirstIdxBrs(Matrix M) {
+    //     return 0;
+    // }
+
+    // public int GetFirstIdxKol(Matrix M) {
+    //     return 0;
+    // }
+
+    public double GetElmt(int i, int j){
+        return this.matrix[i][j];
+    }
+
+    public int GetLastIdxBrs() {
+        return this.row - 1;
+    }
+
+    public int GetLastIdxKol() {
+        return this.col - 1;
+    }
 
     // *** Operasi perkalian matriks ***
     public static Matrix multiple (Matrix m, double k){
@@ -81,6 +114,65 @@ public class Matrix {
         return result;
     }
 
+    public double getDeterminant() {
+        int size = this.row;
+        double[][] M = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                M[i][j] = matrix[i][j]; 
+            }
+        }
+
+        double determinant = 1.0;
+        int swaps = 0;
+
+        for (int i = 0; i < size; i++) {
+            int pivot = i;
+
+            // Cari baris pivot yang elemen diagonalnya bukan nol.
+            for (int j = i; j < size; j++) {
+                if (Math.abs(M[j][i]) > Math.abs(M[pivot][i])) {
+                    pivot = j;
+                }
+            }
+
+    
+            // Jika elemen diagonal pivot adalah nol, maka determinan adalah nol.
+            if (Math.abs(M[pivot][i]) < 1e-9) {
+                return 0.0;
+            }
+
+    
+            // Tukar baris jika pivot bukan pada baris i.
+            if (pivot != i) {
+                swaps++;
+                double[] temp = M[i];
+                M[i] = M[pivot];
+                M[pivot] = temp;
+            }
+
+    
+            // Kurangi baris-baris di bawah pivot untuk membuat elemen di bawah pivot menjadi nol.
+            for (int j = i + 1; j < size; j++) {
+                double factor = M[j][i] / M[i][i];
+                for (int k = i; k < size; k++) {
+                    M[j][k] -= factor * M[i][k];
+                }
+            }
+
+            // Kalikan determinan dengan elemen diagonal (pivot).
+            determinant *= M[i][i];
+        }
+    
+        // Jika jumlah tukar baris ganjil, maka determinan negatif.
+        if (swaps % 2 == 1) {
+            determinant = -determinant;
+        }
+
+        return determinant;
+    }
+
+    
 
     
     
@@ -151,10 +243,10 @@ public class Matrix {
     }
 
     // ***Operasi MATRIX***
-    public static void main(String args[])
-    {
+    public static void main(String args[]){
 
         Matrix testSpl = new Matrix(3,4);
+        Matrix A = new Matrix(testSpl);
         testSpl.readMatrix();
         testSpl.printMatrix();
         // testSpl.eselonBaris();
@@ -166,19 +258,45 @@ public class Matrix {
         testSpl.inverseGausJordan();
         testSpl.printMatrix();
 
-}
+    }
 
-    public static void Copy(Matrix in, Matrix out){
-        out.row = in.row;
-        out.col = in.col;
-        out.matrix = new double[in.row][in.col];
+    public void Copy(Matrix in){
+        
+        this.row = in.row;
+        this.col = in.col;
+        this.matrix = new double[in.row][in.col];
 
 
         for(int i=0; i<in.row;++i){
             for(int j=0; j<in.col; ++j){
-                out.matrix[i][j] = in.matrix[i][j];
+                this.matrix[i][j] = in.matrix[i][j];
             }
         }
+    }
+
+    public Matrix subcramer(Matrix m, int k){
+        double [] temp = new double[m.row];
+        int colcramer = m.col-1;
+        for (int i =0; i< m.row;i++){
+            for (int j =0; j < m.col;j++){
+                if (j == m.col-1){
+                    temp[i] = m.matrix[i][j];
+                }
+            }
+        }
+
+        Matrix N = new Matrix(m);
+        N.Copy(m);
+        N.col -= 1;
+        for (int i =0; i< colcramer;i++){
+            for (int j =0; j < this.row;j++){
+                if (i == k){
+                    N.matrix[j][i] = temp[j];
+                }
+            }
+        }
+
+        return N;
     }
 
 
@@ -244,6 +362,16 @@ public class Matrix {
 
 
     
+    public void approximate()
+    {
+        for (int i =0;i<row;i++)
+        {
+            for (int j =0 ; j<col;j++)
+            {
+                matrix[i][j]=(Math.round(matrix[i][j] * decPoint)/decPoint);
+            }
+        }
+        }
     // public void approximate()
     // {
     //     for (int i =0;i<row;i++)
