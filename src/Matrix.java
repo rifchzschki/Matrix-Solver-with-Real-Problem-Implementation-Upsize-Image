@@ -91,6 +91,10 @@ public class Matrix {
     //     return 0;
     // }
 
+    public double[] GetRow(int row){
+        return this.matrix[row];
+    }
+    
     public double GetElmt(int i, int j){
         return this.matrix[i][j];
     }
