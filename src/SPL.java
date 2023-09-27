@@ -54,16 +54,30 @@ public class SPL {
     }
     public static void parametricSolution(Matrix m){
         System.out.println("parametric");
-        char[] solution = new char[m.GetLastIdxBrs()+1];
-        solution[m.GetLastIdxBrs()] = 'k';
+        String[] solution = new String[m.GetLastIdxBrs()+1];
+        double temp;
+        solution[m.GetLastIdxBrs()] = "k";
+        double[] coef = new double[m.GetLastIdxKol()-1];
+        double[] cons = new double[m.GetLastIdxKol()-1];
 
+        cons[m.GetLastIdxBrs()-1]=m.GetElmt(m.GetLastIdxBrs()-1, m.GetLastIdxKol());
 
         for(int i=m.GetLastIdxBrs()-1;i>=0;--i){
-            solution[i] = (char)m.GetElmt(i, m.GetLastIdxKol());
+            if (i<m.GetLastIdxBrs()-1){
+                System.out.println(cons[i]);
+                cons[i]=findCons(cons,i);
+            }
+            System.out.println(cons[i]);
+            // solution[i] = String.valueOf(m.GetElmt(i, m.GetLastIdxKol()));
             // benerin dlu cari tau cara printnya
+            //simpan koefisien dari hasil perhitungan
+            // cons -= m.GetElmt(i, m.GetLastIdxKol());
+            // coef = 0;
             for(int j=i+1;j<m.GetLastIdxKol();++j){
-                System.out.println("-" + (char)m.GetElmt(i,j)+solution[j]);
-                solution[i] += ( + m.GetElmt(i,j)*solution[j]);
+                // coef += m.GetElmt(i, j)*(-1);
+                // coef = m.GetElmt(i,j)*temp;
+                // System.out.println(m.GetElmt(i,j));
+                // solution[i] += ("-"+String.valueOf(m.GetElmt(i,j))+solution[j]);
             }
             // solution[i] /= m.GetElmt(i, i);
         }
@@ -74,6 +88,16 @@ public class SPL {
 
     }
 
+    public static double findCons(double[] arrRow, int k){
+        double cons=arrRow[k+1];
+
+        for(int i=arrRow.length-1; i>k;--i){
+            System.out.println("indx"+i);
+            cons-=arrRow[i];
+        }
+        
+        return cons;
+    }
 
     public static void main(String[] args){
         SPL.SPLGaus();
