@@ -16,7 +16,7 @@ public class Determinan {
                 }
             }
         }
-        det = (p*diagonal)+0;
+        det = (p*diagonal);
         System.out.format("%.2f", det);
     }
 
@@ -28,8 +28,6 @@ public class Determinan {
         double epsilon = 1e-10; // Toleransi yang sangat kecil
         for(int j=0;j<= m.GetLastIdxKol();j++){
             N= m.subkofaktor(i, j);
-            N.printMatrix();
-            System.out.println("\n");
             subdet = m.GetElmt(i,j)*N.getDeterminant();;
             if (j %2 ==0){
                 det += subdet;
