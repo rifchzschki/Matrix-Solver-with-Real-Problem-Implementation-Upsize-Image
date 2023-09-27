@@ -247,14 +247,16 @@ public class Matrix {
 
         Matrix testSpl = new Matrix(3,4);
         Matrix A = new Matrix(testSpl);
-        testSpl.interpolasiGaus(3);
-        
-        // SPL tes = new SPL();
-        // testSpl.readMatrix();
-        // A.Copy(testSpl);
-        // testSpl.printMatrix();
+        // testSpl.interpolasiGaus(3);
+        // A = testSpl.regresiberganda();
         // A.printMatrix();
-        // tes.getsolustioncramer(testSpl, A);
+        SPL tes = new SPL();
+        testSpl.readMatrix();
+        // A.Copy(testSpl);
+        testSpl.printMatrix();
+        System.out.println("\n");
+        // A.printMatrix();
+        tes.getsolustioncramer(testSpl, A);
         // A = A.subcramer(testSpl, 0);
         // A.printMatrix();
         // testSpl.eselonBaris();
@@ -568,8 +570,13 @@ public class Matrix {
              }
              solution[i] /= equation.matrix[i][i];
          }
- 
-        
+         System.out.print("P(X)= ("+solution[0]+")A0");
+         
+         for (int i =1;i<N;i++)
+         {
+            System.out.print("+("+solution[i]+")A"+i);
+         }
+         
          System.out.print("X"+N+": ");
          double X = scanner.nextDouble();
          double Y = 0;
@@ -605,10 +612,45 @@ public class Matrix {
     
     }
 
+    public Matrix regresiberganda(){
+        System.out.print("Masukkan jumlah peubah x(n) : ");
+        int n = scanner.nextInt();
+        n += 1;
+        System.out.print("Masukkan jumlah sampel(m) : ");
+        int m = scanner.nextInt();
+        double [][] x = new double [m][n];
+
+        for (int i =0; i<m;i++){
+            for (int j=0; j <n;j++){
+                if (j == n-1){
+                    System.out.print("Y" +(i+1)+" : " );
+                }
+                else{
+                    System.out.print("X" +(j+1)+" : ");
+                }
+                x[i][j] = scanner.nextDouble();
+            }
+        }
+
+        Matrix regresi = new Matrix(m,n+1);
+
+        for (int i =0; i<regresi.row;i++){
+            for (int j=0; j <regresi.col;j++){
+                if (j == 0){
+                    regresi.matrix[i][j] = 1;
+                }
+                else{
+                    regresi.matrix[i][j] = x[i][j-1];
+                }
+                
+            }
+        }
+
+        return regresi;
 
 
-
-
+    
+    }
 
 }
 
