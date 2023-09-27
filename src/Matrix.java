@@ -240,9 +240,13 @@ public class Matrix {
 
         Matrix testSpl = new Matrix(3,4);
         Matrix A = new Matrix(testSpl);
+        
+        SPL tes = new SPL();
         testSpl.readMatrix();
+        A.Copy(testSpl);
         testSpl.printMatrix();
-        System.out.println("\n");
+        A.printMatrix();
+        tes.getsolustioncramer(testSpl, A);
         A = A.subcramer(testSpl, 0);
         A.printMatrix();
         testSpl.eselonBaris();
@@ -270,7 +274,6 @@ public class Matrix {
 
     public Matrix subcramer(Matrix m, int k){
         double [] temp = new double[m.row];
-        int colcramer = m.col-1;
         for (int i =0; i< m.row;i++){
             for (int j =0; j < m.col;j++){
                 if (j == m.col-1){
@@ -282,8 +285,8 @@ public class Matrix {
         Matrix N = new Matrix(m);
         N.Copy(m);
         N.col -= 1;
-        for (int i =0; i< colcramer;i++){
-            for (int j =0; j < this.row;j++){
+        for (int i =0; i< N.col;i++){
+            for (int j =0; j < N.row;j++){
                 if (i == k){
                     N.matrix[j][i] = temp[j];
                 }

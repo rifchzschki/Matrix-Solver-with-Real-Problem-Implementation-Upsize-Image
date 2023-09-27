@@ -51,6 +51,14 @@ public class SPL {
     public static void main(String[] args){
         SPL.SPLGaus();
     }
+
+    public void getsolustioncramer(Matrix m, Matrix k){
+        for (int i =0; i<= m.GetLastIdxBrs(); i++){    
+            k = k.subcramer(m, i);
+            double det = k.getDeterminant()/m.getDeterminant();
+            System.out.format("X%d = %f\n",i+1, det);
+        }
+    }
     
 }
 
