@@ -255,20 +255,6 @@ public class Matrix {
         // A.Copy(testSpl);
         testSpl.printMatrix();
         System.out.println("\n");
-        // testSpl.matriksSegitigaAtas();
-        tes.OBEdeterminant(testSpl);
-        // System.out.println("\n");
-        // A.printMatrix();
-        // tes.getsolustioncramer(testSpl, A);
-        // A = A.subcramer(testSpl, 0);
-        // A.printMatrix();
-        // testSpl.eselonBaris();
-        // System.out.println("\n");
-        // testSpl.printMatrix();
-        // testSpl.eselonBarisReduksi();
-        // System.out.println("\n");
-        // testSpl.printMatrix();
-
     }
 
     public void Copy(Matrix in){
@@ -549,6 +535,28 @@ public class Matrix {
         // this.printMatrix();
         return jumlahswap;
     }
+
+    public Matrix subkofaktor(int baris, int kolom) {
+        Matrix n = new Matrix(this.row - 1, this.col - 1);
+        int k = 0;
+        int z = 0;
+    
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                if (i != baris && j != kolom) {
+                    n.matrix[k][z] = this.matrix[i][j];
+                    z += 1;
+                    if (z == n.col) {
+                        z = 0; // Kembali ke kolom pertama jika sudah mencapai kolom terakhir di submatriks
+                        k += 1; // Pindah ke baris berikutnya di submatriks
+                    }
+                }
+            }
+        }
+    
+        return n;
+    }
+    
     
     
 
