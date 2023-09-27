@@ -102,6 +102,33 @@ public class SPL {
     public static void main(String[] args){
         SPL.SPLGaus();
     }
+
+    public void getsolustioncramer(Matrix m, Matrix k){
+        for (int i =0; i<= m.GetLastIdxBrs(); i++){    
+            k = k.subcramer(m, i);
+            double det = k.getDeterminant()/m.getDeterminant();
+            System.out.format("X%d = %f\n",i+1, det);
+        }
+    }
+
+    public void OBEdeterminant(Matrix m){
+        double diagonal = 1;
+        double det =1;
+        double p = m.pow((-1), m.matriksSegitigaAtas());
+        double epsilon = 1e-10; // Toleransi yang sangat kecil
+        for (int i =0; i<= m.GetLastIdxBrs();i++){
+            for(int j =0; j<= m.GetLastIdxKol();j++){
+                if (i == j){
+                    if (Math.abs(m.GetElmt(i, j)) < epsilon) {
+                        diagonal = 0.0; // Jika elemen sangat mendekati 0, dianggap sebagai 0
+                    }
+                    diagonal *= m.GetElmt(i, j);
+                }
+            }
+        }
+        det = (p*diagonal)+0;
+        System.out.format("%.2f", det);
+    }
     
 }
 
