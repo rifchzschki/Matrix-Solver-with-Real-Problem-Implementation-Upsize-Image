@@ -86,6 +86,25 @@ public class SPL {
             System.out.format("X%d = %f\n",i+1, det);
         }
     }
+
+    public void OBEdeterminant(Matrix m){
+        double diagonal = 1;
+        double det =0;
+        double p = m.pow((-1), m.matriksSegitigaAtas());
+        for (int i =0; i<= m.GetLastIdxBrs();i++){
+            for(int j =0; j<= m.GetLastIdxKol();j++){
+                if (i == j){
+                    if (m.GetElmt(i, j) == 0 || m.GetElmt(i, j) == -0){
+                        diagonal =0;
+                    }
+                    diagonal *= m.GetElmt(i, j);
+                }
+            }
+        }
+
+        det = (p*diagonal);
+        System.out.format("%.2f", det);
+    }
     
 }
 

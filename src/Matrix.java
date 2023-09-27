@@ -245,7 +245,7 @@ public class Matrix {
     // ***Operasi MATRIX***
     public static void main(String args[]){
 
-        Matrix testSpl = new Matrix(3,4);
+        Matrix testSpl = new Matrix(4,4);
         Matrix A = new Matrix(testSpl);
         // testSpl.interpolasiGaus(3);
         // A = testSpl.regresiberganda();
@@ -255,8 +255,11 @@ public class Matrix {
         // A.Copy(testSpl);
         testSpl.printMatrix();
         System.out.println("\n");
+        // testSpl.matriksSegitigaAtas();
+        tes.OBEdeterminant(testSpl);
+        // System.out.println("\n");
         // A.printMatrix();
-        tes.getsolustioncramer(testSpl, A);
+        // tes.getsolustioncramer(testSpl, A);
         // A = A.subcramer(testSpl, 0);
         // A.printMatrix();
         // testSpl.eselonBaris();
@@ -513,6 +516,42 @@ public class Matrix {
 
     }
 
+    public double matriksSegitigaAtas() {
+        int rowTemp = 0; // Menunjukkan baris saat ini
+        int colTemp = 0; // Menunjukkan kolom saat ini
+        double jumlahswap = 0;
+        while (rowTemp < this.row && colTemp < this.col) {
+            // Cari baris dengan elemen pertama yang bukan nol
+            int nonZeroRow = rowTemp;
+            while (nonZeroRow < this.row && matrix[nonZeroRow][colTemp] == 0) {
+                nonZeroRow++;
+            }
+    
+            if (nonZeroRow < this.row) {
+                // Swap baris dengan baris yang memiliki elemen pertama yang bukan nol
+                swap(rowTemp, nonZeroRow);
+                if (rowTemp != nonZeroRow){
+                    jumlahswap++;
+                }
+                
+
+                // Eliminasi baris-baris di bawahnya
+                for (int i = rowTemp + 1; i < this.row; i++) {
+                    double factor = matrix[i][colTemp] / matrix[rowTemp][colTemp];
+                    minustimesrow(i, rowTemp, factor);
+                }
+    
+                rowTemp++; // Pindah ke baris berikutnya
+            }
+    
+            colTemp++; // Pindah ke kolom berikutnya
+        }
+        // this.printMatrix();
+        return jumlahswap;
+    }
+    
+    
+
 
     public void interpolasiGaus(int N)
     {
@@ -597,7 +636,7 @@ public class Matrix {
          
     }
 
-    public double pow(double x,int y)
+    public double pow(double x,double y)
     {
         
         if (y==0)
