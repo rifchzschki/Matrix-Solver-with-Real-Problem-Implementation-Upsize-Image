@@ -79,6 +79,7 @@ public class Matrix {
 
             System.out.print("\n");
         }
+        System.out.print("\n");
     } 
     
 
@@ -245,18 +246,27 @@ public class Matrix {
     // ***Operasi MATRIX***
     public static void main(String args[]){
 
-        Matrix testSpl = new Matrix(3,4);
-        Matrix A = new Matrix(testSpl);
+        Matrix testSpl = new Matrix(4,4);
+        double x =1;
         // testSpl.interpolasiGaus(3);
         // A = testSpl.regresiberganda();
         // A.printMatrix();
         SPL tes = new SPL();
-        testSpl.readMatrix();
-        // A.Copy(testSpl);
-        testSpl.printMatrix();
+        for (int i=0;i<4;i++)
+        { 
+            for (int j=0;j<4;j++)
+            {
+                testSpl.matrix[i][j]=x;
+                x++;
+            }
+        }
+        // testSpl.readMatrix();
+        // // A.Copy(testSpl);
+        // testSpl.printMatrix();
         System.out.println("\n");
+        testSpl.bicubicSplineInterpolation();
         // A.printMatrix();
-        tes.getsolustioncramer(testSpl, A);
+        // tes.getsolustioncramer(testSpl, A);
         // A = A.subcramer(testSpl, 0);
         // A.printMatrix();
         // testSpl.eselonBaris();
@@ -441,6 +451,7 @@ public class Matrix {
         }
        //melakukan operasi eselon baris reduksi pada matrix inverse
         inverse.eselonBarisReduksi();
+        
 
         //mengecek apakah adanya baris yang bernilai 0
         // int [] zeroCount=new int[this.row];
@@ -464,7 +475,9 @@ public class Matrix {
                 break;
             }
         }
-        inverse.printMatrix();
+         
+        
+        // inverse.printMatrix();
         if (inverseExist)
         {
             //mengembalikan hasil inverse ke this.matrix
@@ -472,36 +485,32 @@ public class Matrix {
             {
                 for ( int j = this.row;j<(this.row)*2;j++)
                 {
-                    this.matrix[i][k]=inverse.matrix[i][j];
-                    k++;
-                    if (k>this.row-1)
-                        {
-                            k =0;
-                        }
+                    this.matrix[i][j-this.row]=inverse.matrix[i][j];
+                    
                 }
             }
-            //contoh solusi jadi
-            double[] solusi = new double[this.row];
-            double temp1=0;
-            int x =0;
-            for (int i = 0;i < this.row;i++)
-            {
-                temp1=0;
-                for ( int j = 0;j<this.col-1;j++)
-                {
-                    temp1+=this.matrix[i][j]*this.matrix[x][this.col-1];
-                    x++;
-                    if (x>this.row-1)
-                    {
-                        x=0;
-                    }
-                }
-                solusi[i]=temp1;
-            }
-            for (int i =0;i<this.row;i++)
-            {
-                System.out.println("solusi  X" + (i+1) + " : " + solusi[i]);
-            }
+            // //contoh solusi jadi
+            // double[] solusi = new double[this.row];
+            // double temp1=0;
+            // int x =0;
+            // for (int i = 0;i < this.row;i++)
+            // {
+            //     temp1=0;
+            //     for ( int j = 0;j<this.col-1;j++)
+            //     {
+            //         temp1+=this.matrix[i][j]*this.matrix[x][this.col-1];
+            //         x++;
+            //         if (x>this.row-1)
+            //         {
+            //             x=0;
+            //         }
+            //     }
+            //     solusi[i]=temp1;
+            // }
+            // for (int i =0;i<this.row;i++)
+            // {
+            //     System.out.println("solusi  X" + (i+1) + " : " + solusi[i]);
+            // }
         }
         else
         {
@@ -514,7 +523,7 @@ public class Matrix {
     }
 
 
-    public void interpolasiGaus(int N)
+    public void interpolasiGaus(int N)//belum dimodif mau return apa
     {
         Matrix point = new Matrix(N,2);//masukan nilai x,y pada tiap titik
         for (int i =0;i<N;i++)
@@ -570,13 +579,16 @@ public class Matrix {
              }
              solution[i] /= equation.matrix[i][i];
          }
-         System.out.print("P(X)= ("+solution[0]+")A0");
+         //PRINT PERSAMAAN
+         System.out.print("P(X)= ("+solution[0]+")");
          
          for (int i =1;i<N;i++)
          {
-            System.out.print("+("+solution[i]+")A"+i);
+            System.out.print("+("+solution[i]+")X^"+i);
          }
+         System.out.println();
          
+         //fungsi mencari nilai y dari x yang diberikan
          System.out.print("X"+N+": ");
          double X = scanner.nextDouble();
          double Y = 0;
@@ -599,17 +611,13 @@ public class Matrix {
 
     public double pow(double x,int y)
     {
-        
-        if (y==0)
+        if (x==0&&y<0)
         {
-            return 1;
-
+            return 0;
         }
-        else
-        {
-            return (x*pow(x,y-1));
+        else{
+      return Math.pow(x,y);
         }
-    
     }
 
     public Matrix regresiberganda(){
@@ -651,6 +659,221 @@ public class Matrix {
 
     
     }
+
+    public void bicubicSplineInterpolation()
+    {
+        Matrix bicubic = new Matrix(16,16);
+        double[] solution = new double[16];
+        //masukan nilai f(x,y)
+        double x[] = { 0, 1, 0, 1 };
+        double y[] = { 0, 0, 1, 1 };
+        int pos=0;
+        int tempi=0,tempj=0;
+    for (int i=0;i<16;i++) //membuat matrix X
+    {
+        for(int j =0;j<16;j++)
+        {
+            
+            if (i<=3)
+            {
+                bicubic.matrix[i][j]=pow(x[pos],tempi)*pow(y[pos], tempj);
+                tempi++;
+                if(tempi>3)
+                {
+                    tempi=0;
+                    tempj++;
+                }
+                if (tempj>3)
+                {
+                    tempj=0;
+                    tempi=0;
+                    break;
+                }
+            }
+            else if (i>=4&&i<=7)//turunan x
+            {
+                
+                    bicubic.matrix[i][j]=pow(x[pos],tempi-1)*pow(y[pos], tempj)*tempi;
+                    tempi++;
+                    if(tempi>3)
+                    {
+                        tempi=0;
+                        tempj++;
+                    }
+                    if (tempj>3)
+                    {
+                        tempj=0;
+                        tempi=0;
+                        break;
+                    }
+                
+            }
+            else if(i>=8&&i<=11) //turunnan y
+            {
+                
+                    bicubic.matrix[i][j]=pow(x[pos],tempi)*pow(y[pos], tempj-1)*tempj;
+                    tempi++;
+                    if(tempi>3)
+                    {
+                        tempi=0;
+                        tempj++;
+                    }
+                    if (tempj>3)
+                    {
+                        tempi=0;
+                        tempj=0;
+                        break;
+                    }
+                
+            }
+            else if(i>11) //turunan xy
+            {
+               
+                    bicubic.matrix[i][j]=pow(x[pos],tempi-1)*pow(y[pos], tempj-1)*tempj*tempi;
+                    tempi++;
+                    if(tempi>3)
+                    {
+                        tempi=0;
+                        tempj++;
+                    }
+                    if (tempj>3)
+                    {
+                        tempi=0;
+                        tempj=0;
+                        break;
+                    }
+                
+
+            }
+        }
+        pos++;
+        if (pos>3)
+        {
+            pos=0;
+        }
+    }
+    bicubic.printMatrix();
+    bicubic.inverseMatrix();//melakukaninverse x
+    
+
+    Matrix fx = new Matrix(16,1);//MELETAKAN HASIL BACA FILE MATRIX KE MATRIX BERKOLOM 1
+    int k=0;
+    for (int i =0;i<4;i++)
+    {
+        for (int j =0;j<4;j++)
+        {
+            fx.matrix[k][0]=this.matrix[i][j];
+            k++;
+        }
+    }
+//MELETAKAN HASIL KE DALAM ARRAY SOLUTION
+fx.printMatrix();//hasil f(x,y) pada matrix berkolom 1
+bicubic.printMatrix();//hasil inverse
+
+    
+for (int i=0;i<16;i++)
+{
+    double tempresult=0;
+    for(int j =0;j<16;j++)
+    {
+        tempresult+=bicubic.matrix[i][j]*fx.matrix[j][0];
+    }
+    solution[i]=tempresult;
+}
+//test print solusi
+System.out.print("[ ");
+for (int i =0 ;i<16;i++)
+{
+    System.out.print(" " + solution[i]+" ");
+}
+System.out.print("] ");
+
+
+
+System.out.print("a: ");
+double a = scanner.nextDouble();
+System.out.print("b: ");
+double b = scanner.nextDouble();
+
+double hasil=0;
+tempi=0;
+tempj=0;
+
+for (int i=0;i<16;i++) //membuat matrix X
+    {
+       
+        
+            
+            
+    hasil+=pow(a,tempi)*pow(b, tempj)*solution[i];
+    tempi++;
+    if(tempi>3)
+    {
+        tempi=0;
+        tempj++;
+    }
+    if (tempj>3)
+    {
+        tempj=0;
+        tempi=0;
+        break;
+    }
+
+    }
+    
+
+           
+        System.out.println(hasil);
+    
+    }
+
+    //fungsi inverse untuk bicubic
+    //CHECK LAGI
+    public void inverseMatrix() {
+        if (this.row != this.col) {
+            System.out.println("Matrix tidak berbentuk square");
+            return;
+        }
+
+        int n = this.row;
+        Matrix inverse = new Matrix(n, 2 * n);
+
+        //membuat matrix inverse dengan
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                inverse.matrix[i][j] = this.matrix[i][j];
+                inverse.matrix[i][j + n] = (i == j) ? 1 : 0; // matrix identitas
+            }
+        }
+
+        inverse.eselonBarisReduksi(); // Apply Gauss-Jordan elimination
+
+        // Extract the inverse matrix from the augmented matrix
+        for (int i = 0; i < n; i++) {
+            for (int j = n; j < 2 * n; j++) {
+                this.matrix[i][j - n] = inverse.matrix[i][j];
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
