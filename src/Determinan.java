@@ -4,7 +4,7 @@ public class Determinan {
     public static void OBEdeterminant(Matrix m){
         double diagonal = 1;
         double det =1;
-        double p = m.pow((-1), m.matriksSegitigaAtas());
+        double p = ((m.matriksSegitigaAtas() %2 == 0)? 1 : -1 ) ;
         double epsilon = 1e-10; // Toleransi yang sangat kecil
         for (int i =0; i<= m.GetLastIdxBrs();i++){
             for(int j =0; j<= m.GetLastIdxKol();j++){
