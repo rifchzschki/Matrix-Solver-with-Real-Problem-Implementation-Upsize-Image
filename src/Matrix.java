@@ -82,6 +82,11 @@ public class Matrix {
         System.out.print("\n");
     } 
     
+    /* ********** SETTER ********** */
+    public void setEl(int i, int j, double val){
+        this.matrix[i][j] = val;
+    }
+
 
     /* ********** SELEKTOR ********** */
     // public int GetFirstIdxBrs(Matrix M) {
@@ -91,6 +96,10 @@ public class Matrix {
     // public int GetFirstIdxKol(Matrix M) {
     //     return 0;
     // }
+
+    public double[] GetRow(int row){
+        return this.matrix[row];
+    }
 
     public double GetElmt(int i, int j){
         return this.matrix[i][j];
@@ -247,19 +256,11 @@ public class Matrix {
     public static void main(String args[]){
 
         Matrix testSpl = new Matrix(4,4);
-        double x =1;
+        Matrix A = new Matrix(testSpl);
         // testSpl.interpolasiGaus(3);
         // A = testSpl.regresiberganda();
         // A.printMatrix();
         SPL tes = new SPL();
-        for (int i=0;i<4;i++)
-        { 
-            for (int j=0;j<4;j++)
-            {
-                testSpl.matrix[i][j]=x;
-                x++;
-            }
-        }
         // testSpl.readMatrix();
         // // A.Copy(testSpl);
         // testSpl.printMatrix();
@@ -522,93 +523,65 @@ public class Matrix {
 
     }
 
-
-    public void interpolasiGaus(int N)//belum dimodif mau return apa
-    {
-        Matrix point = new Matrix(N,2);//masukan nilai x,y pada tiap titik
-        for (int i =0;i<N;i++)
-        {
-            for (int j =0;j<2;j++)
-            {
-                if (j==0)
-                {
-                    System.out.print("X"+i+": ");
-                }
-                else
-                {
-                    System.out.print("Y"+i+": ");
-                }
-                point.matrix[i][j]=scanner.nextDouble();
+    public double matriksSegitigaAtas() {
+        int rowTemp = 0; // Menunjukkan baris saat ini
+        int colTemp = 0; // Menunjukkan kolom saat ini
+        double jumlahswap = 0;
+        while (rowTemp < this.row && colTemp < this.col) {
+            // Cari baris dengan elemen pertama yang bukan nol
+            int nonZeroRow = rowTemp;
+            while (nonZeroRow < this.row && matrix[nonZeroRow][colTemp] == 0) {
+                nonZeroRow++;
             }
-        }
+    
+            if (nonZeroRow < this.row) {
+                // Swap baris dengan baris yang memiliki elemen pertama yang bukan nol
+                swap(rowTemp, nonZeroRow);
+                if (rowTemp != nonZeroRow){
+                    jumlahswap++;
+                }
+                
 
-        Matrix equation =new Matrix(N,N+1);//masukan dalam matrix untuk eliminasi gauss jordan
-        int power;
-        for(int i =0;i<N;i++)
-        {   
-            power =1;
-            for(int j =0;j<N+1;j++)
-            {
-                if (j==0)
-                {
-                    equation.matrix[i][j]=1;
+                // Eliminasi baris-baris di bawahnya
+                for (int i = rowTemp + 1; i < this.row; i++) {
+                    double factor = matrix[i][colTemp] / matrix[rowTemp][colTemp];
+                    minustimesrow(i, rowTemp, factor);
                 }
-                else if (j==N)
-                {
-                    equation.matrix[i][j]=point.matrix[i][1];
-                }
-                else
-                {
-                    equation.matrix[i][j]=pow(point.matrix[i][0],power);
-                    power++;
-                }
+    
+                rowTemp++; // Pindah ke baris berikutnya
             }
+    
+            colTemp++; // Pindah ke kolom berikutnya
         }
-
-        //langkah gaus jordan
-        equation.eselonBarisReduksi();
-
-        //simpan hasil solusi
-
-        double[] solution= new double[N];
-         // Penyelesaian balik (back substitution)
-         for (int i = N - 1; i >= 0; i--) {
-             solution[i] = equation.matrix[i][N];
-             for (int j = i + 1; j < N; j++) {
-                 solution[i] -= equation.matrix[i][j] * solution[j];
-             }
-             solution[i] /= equation.matrix[i][i];
-         }
-         //PRINT PERSAMAAN
-         System.out.print("P(X)= ("+solution[0]+")");
-         
-         for (int i =1;i<N;i++)
-         {
-            System.out.print("+("+solution[i]+")X^"+i);
-         }
-         System.out.println();
-         
-         //fungsi mencari nilai y dari x yang diberikan
-         System.out.print("X"+N+": ");
-         double X = scanner.nextDouble();
-         double Y = 0;
-         power =1;
-         for (int i =1;i<N;i++)
-         {
-            Y+=solution[i]*pow(X,power);
-            power++;
-         }
-         Y+=solution[0];
-         System.out.print("Y"+N+": " + Y);
-
-
-
-
-
-
-         
+        // this.printMatrix();
+        return jumlahswap;
     }
 
+    public Matrix subkofaktor(int baris, int kolom) {
+        Matrix n = new Matrix(this.row - 1, this.col - 1);
+        int k = 0;
+        int z = 0;
+    
+        for (int i = 0; i < this.row; i++) {
+            for (int j = 0; j < this.col; j++) {
+                if (i != baris && j != kolom) {
+                    n.matrix[k][z] = this.matrix[i][j];
+                    z += 1;
+                    if (z == n.col) {
+                        z = 0; // Kembali ke kolom pertama jika sudah mencapai kolom terakhir di submatriks
+                        k += 1; // Pindah ke baris berikutnya di submatriks
+                    }
+                }
+            }
+        }
+    
+        return n;
+    }
+    
+    
+
+
+    
     public double pow(double x,int y)
     {
         if (x==0&&y<0)
