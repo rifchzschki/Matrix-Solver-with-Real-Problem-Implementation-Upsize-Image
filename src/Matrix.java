@@ -125,6 +125,21 @@ public class Matrix {
         return result;
     }
 
+    public static Matrix matMultiple(Matrix m1, Matrix m2){
+        Matrix result = new Matrix(m1.row, m2.col);
+
+        for(int i=0;i<m1.row;++i){
+            for(int j=0;j<m2.col;++j){
+                result.matrix[i][j]= 0;
+                for(int k=0;k<m1.col;++k){
+                    result.matrix[i][j] += m1.matrix[i][k]*m2.matrix[k][j];
+                }
+            }
+        }
+
+        return result;
+    }
+
     public double getDeterminant() {
         int size = this.row;
         double[][] M = new double[size][size];
@@ -272,16 +287,26 @@ public class Matrix {
     public static void main(String args[]){
 
         Matrix testSpl = new Matrix(3,3);
-        Matrix A = new Matrix(testSpl);
+        testSpl.readMatrix();
+        testSpl = testSpl.transpose();
+        testSpl.printMatrix();
+        // Matrix A = new Matrix(testSpl);
         // testSpl.interpolasiGaus(3);
         // A = testSpl.regresiberganda();
         // A.printMatrix();
-        Balikan tes = new Balikan();
-        boolean eka = true;
-        testSpl.readMatrix();
+        // Balikan tes = new Balikan();
+        // Matrix m1 = new Matrix(2,3);
+        // Matrix m2 = new Matrix(3,2);
+        // m1.readMatrix();
+        // m2.readMatrix();
+        // Matrix result;
+        // result = matMultiple(m1,m2);
+        // result.printMatrix();
+        // boolean eka = true;
+        // testSpl.readMatrix();
         // // A.Copy(testSpl);
-        testSpl.printMatrix();
-        System.out.println("");
+        // testSpl.printMatrix();
+        // System.out.println("");
         // testSpl.bicubicSplineInterpolation();
         // testSpl.inverseMatrix();
         // testSpl.printMatrix();
@@ -298,7 +323,7 @@ public class Matrix {
         // testSpl.eselonBaris();
         // System.out.println("\n");
         // testSpl.printMatrix();
-        tes.Adjoint(testSpl);
+        // tes.Adjoint(testSpl);
         // testSpl.printMatrix();
         // testSpl.printMatrix();
 
@@ -650,46 +675,7 @@ public class Matrix {
         }
     }
 
-    public Matrix regresiberganda(){
-        System.out.print("Masukkan jumlah peubah x(n) : ");
-        int n = scanner.nextInt();
-        n += 1;
-        System.out.print("Masukkan jumlah sampel(m) : ");
-        int m = scanner.nextInt();
-        double [][] x = new double [m][n];
-
-        for (int i =0; i<m;i++){
-            for (int j=0; j <n;j++){
-                if (j == n-1){
-                    System.out.print("Y" +(i+1)+" : " );
-                }
-                else{
-                    System.out.print("X" +(j+1)+" : ");
-                }
-                x[i][j] = scanner.nextDouble();
-            }
-        }
-
-        Matrix regresi = new Matrix(m,n+1);
-
-        for (int i =0; i<regresi.row;i++){
-            for (int j=0; j <regresi.col;j++){
-                if (j == 0){
-                    regresi.matrix[i][j] = 1;
-                }
-                else{
-                    regresi.matrix[i][j] = x[i][j-1];
-                }
-                
-            }
-        }
-
-        return regresi;
-
-
     
-    }
-
     public void bicubicSplineInterpolation()
     {
         Matrix bicubic = new Matrix(16,16);
@@ -796,41 +782,41 @@ public class Matrix {
             k++;
         }
     }
-//MELETAKAN HASIL KE DALAM ARRAY SOLUTION
-fx.printMatrix();//hasil f(x,y) pada matrix berkolom 1
-bicubic.printMatrix();//hasil inverse
+    //MELETAKAN HASIL KE DALAM ARRAY SOLUTION
+    fx.printMatrix();//hasil f(x,y) pada matrix berkolom 1
+    bicubic.printMatrix();//hasil inverse
 
-    
-for (int i=0;i<16;i++)
-{
-    double tempresult=0;
-    for(int j =0;j<16;j++)
+        
+    for (int i=0;i<16;i++)
     {
-        tempresult+=bicubic.matrix[i][j]*fx.matrix[j][0];
+        double tempresult=0;
+        for(int j =0;j<16;j++)
+        {
+            tempresult+=bicubic.matrix[i][j]*fx.matrix[j][0];
+        }
+        solution[i]=tempresult;
     }
-    solution[i]=tempresult;
-}
-//test print solusi
-System.out.print("[ ");
-for (int i =0 ;i<16;i++)
-{
-    System.out.print(" " + solution[i]+" ");
-}
-System.out.print("] ");
-
-
-
-System.out.print("a: ");
-double a = scanner.nextDouble();
-System.out.print("b: ");
-double b = scanner.nextDouble();
-
-double hasil=0;
-tempi=0;
-tempj=0;
-
-for (int i=0;i<16;i++) //membuat matrix X
+    //test print solusi
+    System.out.print("[ ");
+    for (int i =0 ;i<16;i++)
     {
+        System.out.print(" " + solution[i]+" ");
+    }
+    System.out.print("] ");
+
+
+
+    System.out.print("a: ");
+    double a = scanner.nextDouble();
+    System.out.print("b: ");
+    double b = scanner.nextDouble();
+
+    double hasil=0;
+    tempi=0;
+    tempj=0;
+
+    for (int i=0;i<16;i++) //membuat matrix X
+        {
        
         
             

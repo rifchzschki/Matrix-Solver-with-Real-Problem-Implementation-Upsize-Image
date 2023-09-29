@@ -1,13 +1,14 @@
 package src;
 
 public class Balikan {
-    public void Gausjordaninvers(Matrix m){
+    public Matrix result;
+    public void Gausjordaninvers(Matrix m){//APAKAH BELUM SELESAI?
         if(m.inverseMatrix()){
-            m.printMatrix();;
+            m.printMatrix();
         }
     }
 
-    public void Adjoint(Matrix m){
+    public Matrix Adjoint(Matrix m){
         Matrix A = new Matrix (m);
         A.Copy(m);
         if(A.inverseMatrix()){
@@ -15,9 +16,9 @@ public class Balikan {
             A = m.matrixkofaktor();
             A = A.transpose();
             A = A.multiple(A, p);
-            A.printMatrix();
+            result = A;
         }
-       
+       return result;
 
     }
 }
