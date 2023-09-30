@@ -101,8 +101,140 @@ public class Interpolasi {
     
     }
 
+    public static void bicubicSplineInterpolation(Matrix m, double a,double b){
+        Matrix bicubic = new Matrix(16,16);
+        double[] solution = new double[16];
+        //masukan nilai f(x,y)
+        double x[] = { 0, 1, 0, 1 };
+        double y[] = { 0, 0, 1, 1 };
+        int pos=0;
+        int tempi=0,tempj=0;
+        for (int i=0;i<16;i++){ //membuat matrix X
+            for(int j =0;j<16;j++){
+                if (i<=3){
+                    double powx = pow(x[pos],tempi); double powy = pow(y[pos], tempj);
+                    bicubic.setEl(i,j,powx*powy);
+                    tempi++;
+                    if(tempi>3){
+                        tempi=0;
+                        tempj++;
+                    }
+                    if (tempj>3){
+                        tempj=0;
+                        tempi=0;
+                        break;
+                    }
+                }
+                else if (i>=4&&i<=7){//turunan x
+                    double powx = pow(x[pos],tempi-1); double powy = pow(y[pos], tempj)*tempi;
+                    bicubic.setEl(i,j,powx*powy);
+                    tempi++;
+                    if(tempi>3){
+                        tempi=0;
+                        tempj++;
+                    }
+                    if (tempj>3){
+                        tempj=0;
+                        tempi=0;
+                        break;
+                    }
+                }
+                else if(i>=8&&i<=11){ //turunnan y
+                    double powx = pow(x[pos],tempi); double powy = pow(y[pos], tempj-1)*tempj;
+                    bicubic.setEl(i,j,powx*powy);
+                    tempi++;
+                    if(tempi>3){
+                        tempi=0;
+                        tempj++;
+                    }
+                    if (tempj>3){
+                        tempi=0;
+                        tempj=0;
+                        break;
+                    }
+                }
+                else if(i>11){ //turunan xy
+                    double powx = pow(x[pos],tempi-1);double powy = pow(y[pos], tempj-1)*tempj*tempi;
+                    bicubic.setEl(i,j,powx*powy);
+                    tempi++;
+                    if(tempi>3){
+                        tempi=0;
+                        tempj++;
+                    }
+                    if (tempj>3){
+                        tempi=0;
+                        tempj=0;
+                        break;
+                    }
+                }
+            }
+            pos++;
+            if (pos>3){
+                pos=0;
+            }
+        }
+        bicubic.printMatrix();
+        bicubic.inverseMatrix();//melakukaninverse x
+    
+
+        Matrix fx = new Matrix(16,1);//MELETAKAN HASIL BACA FILE MATRIX KE MATRIX BERKOLOM 1
+        int k=0;
+        for (int i =0;i<4;i++)
+        {
+            for (int j =0;j<4;j++)
+            {
+                fx.setEl(k, 0, m.GetElmt(i, j));
+                k++;
+            }
+        }
+        
+        //MELETAKAN HASIL KE DALAM ARRAY SOLUTION
+        fx.printMatrix();//hasil f(x,y) pada matrix berkolom 1
+        bicubic.printMatrix();//hasil inverse
+    
+        for (int i=0;i<16;i++){
+            double tempresult=0;
+            for(int j =0;j<16;j++){
+                tempresult+=bicubic.GetElmt(i,j)*fx.GetElmt(j, 0);
+            }
+            solution[i]=tempresult;
+        }
+        
+        //test print solusi
+        System.out.print("[ ");
+        for (int i =0 ;i<16;i++){
+            System.out.print(" " + solution[i]+" ");
+        }
+        System.out.print("] ");
+
+        double hasil=0;
+        tempi=0;
+        tempj=0;
+        
+        for (int i=0;i<16;i++){ //mencari nilai y
+            hasil+=pow(a,tempi)*pow(b, tempj)*solution[i];
+            tempi++;
+            if(tempi>3){
+                tempi=0;
+                tempj++;
+            }
+            if (tempj>3){
+                tempj=0;
+                tempi=0;
+                break;
+            }
+        }
+        System.out.println(hasil);
+        
+    }
+            
     public static void main(String[] args){
-        Interpolasi.interpolasiGaus();
+        // Interpolasi.interpolasiGaus();
+        Matrix m = new Matrix(4,4 );
+        m.readMatrix();
+        Interpolasi.bicubicSplineInterpolation(m,0.5,0.5);
+        // double x = pow(2,10);
+        // System.out.println(x);
     }
 
 
