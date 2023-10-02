@@ -19,6 +19,11 @@ public class Menu{
         System.out.print("Pilihan Menu : ");
         int input = scanner.nextInt();
         
+        while (input < 1 || input > 7){
+            System.out.println("\nMasukan Tidak Valid\n");
+            System.out.print("Pilihan Menu : ");
+            input = scanner.nextInt();
+        }
         return input;
     }
 
@@ -32,6 +37,11 @@ public class Menu{
         System.out.print("Pilihan Metode : ");
         int input = scanner.nextInt();
 
+        while (input < 1 || input > 4){
+            System.out.println("\nMasukan Tidak Valid\n");
+            System.out.print("Pilihan Menu : ");
+            input = scanner.nextInt();
+        }
         return input;
     }
 
@@ -43,6 +53,11 @@ public class Menu{
         System.out.print("Pilihan Metode : ");
         int input = scanner.nextInt();
 
+        while (input < 1 || input > 2){
+            System.out.println("\nMasukan Tidak Valid\n");
+            System.out.print("Pilihan Menu : ");
+            input = scanner.nextInt();
+        }
         return input;
     }
 
@@ -54,6 +69,11 @@ public class Menu{
         System.out.print("Pilihan Metode : ");
         int input = scanner.nextInt();
 
+        while (input < 1 || input > 2){
+            System.out.println("\nMasukan Tidak Valid\n");
+            System.out.print("Pilihan Menu : ");
+            input = scanner.nextInt();
+        }
         return input;
     }
 
@@ -65,46 +85,113 @@ public class Menu{
         System.out.print("Pilihan Metode Input : ");
         int input = scanner.nextInt();
 
+        while (input < 1 || input > 2){
+            System.out.println("\nMasukan Tidak Valid\n");
+            System.out.print("Pilihan Menu : ");
+            input = scanner.nextInt();
+        }
         return input;
     }
 
-    public void run(){
-        int menu,subSpl, subInput;
-        menu = listmenu();
-        while (menu < 1 || menu > 7){
-            System.out.println("\nMasukan Tidak Valid\n");
-            menu = listmenu();
-        }
+    void Continue(){
+        System.out.println("\n----------Program----------");
+        System.out.println("1.Kembali ke Menu");
+        System.out.println("2.Keluar");
 
+        System.out.print("Pilihan : ");
+        int input = scanner.nextInt();
+        
+        while (input < 1 || input > 2){
+            System.out.println("\nMasukan Tidak Valid\n");
+            System.out.print("Pilihan Menu : ");
+            input = scanner.nextInt();
+        }
+        
+        if (input == 1){
+            run();
+        }
+    }
+    public void run(){
+        int menu,subSpl, subInput,subdeterminan,subbalikan;
+        menu = listmenu();
         if (menu == 1){
             subSpl = subMenuSPL();
-            while (subSpl < 1 || subSpl > 4){
-                System.out.println("\nMasukan Tidak Valid\n");
-                subSpl = subMenuSPL();
+        }
+        else if (menu == 2){
+            Determinan d = new Determinan();
+            subdeterminan = subMenuDeterminan();
+
+            if (subdeterminan == 1){
+                subInput = subMenuinput();
+                
+                if (subInput == 1){
+                    d.OBEDeterminant();
+                    Continue();
+                }
             }
-        
-        subInput = subMenuinput();
-        while (subInput < 1 || subInput > 2){
-            System.out.println("\nMasukan Tidak Valid\n");
+            else{
+                subInput = subMenuinput();
+                if (subInput == 1){
+                    d.kofaktorDeterminant();
+                    Continue();
+                }
+            }
+        }
+        else if (menu == 3){
+            Balikan invers = new Balikan();
+            subbalikan = subMenuBalikan();
+            if (subbalikan == 1){
+                subInput = subMenuinput();
+                
+                if (subInput == 1){
+                    invers.Gausjordaninvers();
+                    Continue();
+                }
+            }
+            else{
+                subInput = subMenuinput();
+                
+                if (subInput == 1){
+                    invers.runAdjoint();
+                    Continue();
+                }
+            }
+        }
+        else if(menu == 4){
+            Interpolasi interpolasi = new Interpolasi();
             subInput = subMenuinput();
-        }
-        if (subInput == 1){
-            System.out.print("\nMasukan Baris : ");
-            int row = scanner.nextInt();
-            System.out.print("\nMasukan Kolom : ");
-            int col = scanner.nextInt();
-            Matrix m = new Matrix(row, col);
-            m.readMatrix();
-            m.printMatrix(false);
 
-        }
+            if (subInput == 1){
+                interpolasi.interpolasiGaus();
+                Continue();
+            }
+            
         }
 
+        else if(menu == 5){
+            Regresi regresi =new Regresi();
+            subInput = subMenuinput();
+
+            if(subInput == 1){
+                regresi.regresiberganda();
+                Continue();
+            }
+        }
+
+        else if(menu == 6){
+            Interpolasi interpolasi = new Interpolasi();
+            subInput = subMenuinput();
+
+            if (subInput == 1){
+                Matrix m = new Matrix(4,4 );
+                m.readMatrix();
+                Interpolasi.bicubicSplineInterpolation(m,0.5,0.5);
+                Continue();
+            }
+        }
+        
         scanner.close();
 
-
-         
-    
     }
 }
 

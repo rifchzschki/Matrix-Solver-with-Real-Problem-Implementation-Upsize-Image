@@ -1,4 +1,4 @@
-package src;
+// package src;
 import java.util.*;
 
 //untuk interpolasi bonus
@@ -283,7 +283,7 @@ public class Matrix {
         // testSpl.interpolasiGaus(3);
         // A = testSpl.regresiberganda();
         // A.printMatrix();
-        Balikan tes = new Balikan();
+        // Balikan tes = new Balikan();
         boolean eka = true;
         testSpl.readMatrix();
         // // A.Copy(testSpl);
@@ -292,7 +292,6 @@ public class Matrix {
         // testSpl.bicubicSplineInterpolation();
         // testSpl.inverseMatrix();
         // testSpl.printMatrix();
-<<<<<<< Updated upstream
         // System.out.println("");
         // eka = tes.isinversvalid(testSpl);
         // System.out.println(eka+"");
@@ -300,25 +299,13 @@ public class Matrix {
         //     testSpl.inverseMatrix();
         //     testSpl.printMatrix();
         // }
-=======
-        System.out.println("\n");
-        testSpl.bonus();
-        // try{
-        //     BufferedImage foto = ImageIO.read(new File("fototest.jpg"));
-        //     tes.bonus();
-
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
-        // A.printMatrix();
->>>>>>> Stashed changes
         // tes.getsolustioncramer(testSpl, A);
         // A = A.subcramer(testSpl, 0);
         // A.printMatrix();
         // testSpl.eselonBaris();
         // System.out.println("\n");
         // testSpl.printMatrix();
-        tes.Adjoint(testSpl);
+        // tes.Adjoint(testSpl);
         // testSpl.printMatrix();
         // testSpl.printMatrix();
 
@@ -788,7 +775,7 @@ public class Matrix {
                 pos = 0;
             }
         }
-        bicubic.inverseMatrix();// melakukaninverse matrix x
+        // bicubic.inverseMatrix();// melakukaninverse matrix x
 
         int xi[] = { -1, 0, 1, 2 };
         int yi[] = { -1, 0, 1, 2 };
@@ -1061,7 +1048,6 @@ public class Matrix {
 
 
 
-<<<<<<< Updated upstream
 
 
 
@@ -1077,5 +1063,3 @@ public class Matrix {
 
 
 
-=======
->>>>>>> Stashed changes
