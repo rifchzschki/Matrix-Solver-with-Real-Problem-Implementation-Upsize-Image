@@ -1,4 +1,5 @@
 package src;
+import java.io.PrintStream;
 import java.util.*;
 
 public class Interpolasi {
@@ -19,25 +20,8 @@ public class Interpolasi {
     
     }
 
-    public static void interpolasiGaus(){
-        double val;
-        int N;
-        System.out.print("N: ");
-        N = scan.nextInt();
-        Matrix point = new Matrix(N,2);//masukan nilai x,y pada tiap titik
+    public static String interpolasiGaus(int N, Matrix point, double x){
         
-        for (int i =0;i<N;i++){
-            for (int j =0;j<2;j++){
-                if (j==0){
-                    System.out.print("X"+i+": ");
-                } else{
-                    System.out.print("Y"+i+": ");
-                }
-                val = scan.nextDouble();
-                point.setEl(i, j, val);
-            }
-        }
-
         Matrix equation =new Matrix(N,N+1);//masukan dalam matrix untuk eliminasi gauss jordan
         int power;
         for(int i =0;i<N;i++)
@@ -75,6 +59,12 @@ public class Interpolasi {
              }
              solution[i] /= equation.GetElmt(i, i);
          }
+
+         
+         
+
+         Capturer capturer = new Capturer();
+         capturer.mulai();
          //PRINT PERSAMAAN
          String hasil = String.format("P(X)= (%.4f)",solution[0]);
          System.out.print(hasil);
@@ -87,18 +77,23 @@ public class Interpolasi {
          System.out.println();
          
          
-         System.out.print("X"+": ");
-         double X = scan.nextDouble();
          double Y = 0;
          power =1;
+         if (point.GetLastIdxBrs()==N)
+         {
+            x = point.GetElmt(N,0);
+         }
+         
          for (int i =1;i<N;i++)
          {
-            Y+=solution[i]*pow(X,power);
+            Y+=solution[i]*pow(x,power);
             power++;
          }
          Y+=solution[0];
-         System.out.print("f("+X+")"+"= "+ Y);
-    
+         System.out.print("f("+x+")"+"= "+ Y);
+        
+         String consoleOutput = capturer.stop();
+         return consoleOutput;
     }
 
     public static void bicubicSplineInterpolation(Matrix m, double a,double b){

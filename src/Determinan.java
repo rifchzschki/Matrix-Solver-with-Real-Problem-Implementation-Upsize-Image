@@ -1,14 +1,10 @@
 package src;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Determinan {
     Scanner scanner = new Scanner(System.in);
-    public void kofaktorDeterminant(){
-        System.out.print("\nMasukan N : ");
-        int n = scanner.nextInt();
-        Matrix m = new Matrix(n,n);
-        m.readMatrix();
-        m.printMatrix();
+    public void kofaktorDeterminant(Matrix m){
         Matrix N = new Matrix(m);
         int i =0;
         double det =0;
@@ -31,12 +27,7 @@ public class Determinan {
         System.out.format("Hasil Determinant: %.2f\n", det);
     }
     
-    public void OBEDeterminant(){
-        System.out.print("\nMasukan N : ");
-        int n = scanner.nextInt();
-        Matrix m = new Matrix(n,n);
-        m.readMatrix();
-        m.printMatrix();
+    public void OBEDeterminant(Matrix m){
         double diagonal = 1;
         double det =1;
         double p = ((m.matriksSegitigaAtas() %2 == 0)? 1 : -1 ) ;

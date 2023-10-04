@@ -1,4 +1,9 @@
 package src;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Matrix {
@@ -68,7 +73,47 @@ public class Matrix {
         System.out.print("\n");
     }
 
-   
+    public Matrix BacaFileMatriks(String matrixFileName) throws FileNotFoundException {
+        int NRow = 0;
+        int NCol = 0;
+        File bacafile = new File("test/input/"+matrixFileName);
+        Matrix M = new Matrix(1000,1000);
+
+        try (Scanner scanBaris = new Scanner(bacafile)) {
+            while (scanBaris.hasNextLine()) {
+                NRow++;
+                NCol = 0;
+                Scanner scanNumber = new Scanner(scanBaris.nextLine());
+                while (scanNumber.hasNextFloat()) {
+                    NCol++;
+                    if (scanNumber.hasNextFloat()) {
+                        M.matrix[NRow - 1][NCol - 1] = scanNumber.nextFloat();
+                    }
+                }
+            }
+        }
+
+        M.row = NRow;
+        M.col = NCol;
+        return M;
+    }
+    
+    
+    public static void writeProgramOutputToFile(String fileName, String data) {
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write(data);
+
+            
+            bufferedWriter.close();
+
+            System.out.println("Data berhasil ditulis ke " + fileName);
+        } catch (IOException e) {
+            System.err.println("Terjadi kesalahan saat menulis file: " + e.getMessage());
+        }
+    }
 
     public void printMatrix() {
         for (int i = 0; i < this.row; i++) {
@@ -286,10 +331,15 @@ public class Matrix {
     // ***Operasi MATRIX***
     public static void main(String args[]){
 
-        Matrix testSpl = new Matrix(3,3);
-        testSpl.readMatrix();
-        testSpl = testSpl.transpose();
-        testSpl.printMatrix();
+        
+        // try {
+        //     Matrix testSpl= new Matrix(1,1);
+        //     testSpl = testSpl.BacaFileMatriks("cupi.txt");
+        //     testSpl.printMatrix();
+        // } catch (FileNotFoundException e) {
+        //     System.err.println("File not found: " + e.getMessage());
+        // }
+        
         // Matrix A = new Matrix(testSpl);
         // testSpl.interpolasiGaus(3);
         // A = testSpl.regresiberganda();
