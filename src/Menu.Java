@@ -1,8 +1,10 @@
 package src;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Menu{
     Scanner scanner = new Scanner(System.in);
+    
     public Menu() {
 
     }
@@ -93,6 +95,24 @@ public class Menu{
         return input;
     }
 
+    void savefile(String consol){
+        System.out.print("Apakah Anda ingin simpan dalam file (Y/N)? ");
+        String valid = scanner.nextLine();
+        while (!valid.equals("y") && !valid.equals("Y") && !valid.equals("n") && !valid.equals("N")){
+            System.out.print("Apakah Anda ingin simpan dalam file (Y/N)? ");
+            valid = scanner.nextLine();    
+        }
+        if (valid.equals("y") || valid.equals("Y")){
+            System.out.print("Masukkan nama file (.txt) : ");
+            String name = scanner.nextLine();
+            String filename =  ("test/output/" + name);
+            Matrix.writeProgramOutputToFile(filename, consol);
+            Continue();
+        }
+        else{
+            Continue();
+        }
+    }
     void Continue(){
         System.out.println("\n----------Program----------");
         System.out.println("1.Kembali ke Menu");
@@ -114,6 +134,7 @@ public class Menu{
     public void run(){
         int menu,subSpl, subInput,subdeterminan,subbalikan;
         menu = listmenu();
+        scanner.nextLine();
         if (menu == 1){
             subSpl = subMenuSPL();
         }
@@ -123,62 +144,232 @@ public class Menu{
 
             if (subdeterminan == 1){
                 subInput = subMenuinput();
-                
+                scanner.nextLine();
                 if (subInput == 1){
-                    d.OBEDeterminant();
-                    Continue();
+                    System.out.print("\nMasukan N : ");
+                    int n = scanner.nextInt();
+                    Matrix m = new Matrix(n,n);
+                    m.readMatrix();
+
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
+
+                    System.out.println("\n Input Matrix : \n");
+                    m.printMatrix();
+                    d.OBEDeterminant(m);
+
+                    String consoleOutput = capturer.stop();
+                    System.out.println(consoleOutput);
+                    
+                    savefile(consoleOutput);
+                }
+                else{
+                   try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m= new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        d.OBEDeterminant(m);
+
+                        String consoleOuput = capturer.stop();
+                        System.out.println(consoleOuput);
+                        
+                        savefile(consoleOuput);
+
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
                 }
             }
             else{
                 subInput = subMenuinput();
+                scanner.nextLine();
                 if (subInput == 1){
-                    d.kofaktorDeterminant();
-                    Continue();
+                    System.out.print("\nMasukan N : ");
+                    int n = scanner.nextInt();
+                    Matrix m = new Matrix(n,n);
+                    m.readMatrix();
+
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
+
+                    System.out.println("\n Input Matrix : \n");
+                    m.printMatrix();
+                    d.kofaktorDeterminant(m);
+                    
+                    String consoleOutput = capturer.stop();
+                    System.out.println(consoleOutput);
+                    savefile(consoleOutput);
+                }
+                else{
+                    try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m = new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        d.kofaktorDeterminant(m);
+
+                        String consoleOutput = capturer.stop();
+                        System.out.println(consoleOutput);
+                        savefile(consoleOutput);
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
                 }
             }
+                
         }
+        
         else if (menu == 3){
             Balikan invers = new Balikan();
             subbalikan = subMenuBalikan();
             if (subbalikan == 1){
                 subInput = subMenuinput();
-                
+                scanner.nextLine();
                 if (subInput == 1){
-                    invers.Gausjordaninvers();
-                    Continue();
+                    System.out.print("\nMasukan N : ");
+                    int n = scanner.nextInt();
+                    Matrix m = new Matrix(n,n);
+                    m.readMatrix();
+
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
+
+                    System.out.println("\n Input Matrix : \n");
+                    m.printMatrix();
+                    invers.Gausjordaninvers(m);
+                    
+                    String consoleOutput = capturer.stop();
+                    System.out.println(consoleOutput);
+                    savefile(consoleOutput);
+                }
+                else{
+                    try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m = new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        invers.Gausjordaninvers(m);
+
+                        String consoleOutput = capturer.stop();
+                        System.out.println(consoleOutput);
+                        savefile(consoleOutput);
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
                 }
             }
             else{
                 subInput = subMenuinput();
-                
+                scanner.nextLine();
                 if (subInput == 1){
-                    invers.runAdjoint();
-                    Continue();
+                    System.out.print("\nMasukan N : ");
+                    int n = scanner.nextInt();
+                    Matrix m = new Matrix(n,n);
+                    m.readMatrix();
+
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
+
+                    System.out.println("\n Input Matrix : \n");
+                    m.printMatrix();
+                    m = invers.Adjoint(m);
+                    m.printMatrix();
+                    String consoleOutput = capturer.stop();
+                    System.out.println(consoleOutput);
+                    savefile(consoleOutput);
+                }
+                else{
+                    try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m = new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        m = invers.Adjoint(m);
+                        m.printMatrix();
+                        String consoleOutput = capturer.stop();
+                        System.out.println(consoleOutput);
+                        savefile(consoleOutput);
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
                 }
             }
         }
         else if(menu == 4){
-            Interpolasi interpolasi = new Interpolasi();
             subInput = subMenuinput();
-
-            if (subInput == 1){
-                interpolasi.interpolasiGaus();
-                Continue();
-            }
-            
-        }
-
-        else if(menu == 5){
-            Regresi regresi =new Regresi();
-            subInput = subMenuinput();
-
+            scanner.nextLine();
             if(subInput == 1){
-                regresi.regresiberganda();
-                Continue();
+                double val;
+                int N;
+                System.out.print("N: ");
+                N = scanner.nextInt();
+                Matrix point = new Matrix(N,2);//masukan nilai x,y pada tiap titik
+            
+                for (int i =0;i<N;i++){
+                    for (int j =0;j<2;j++){
+                        if (j==0){
+                            System.out.print("X"+i+": ");
+                        } else{
+                            System.out.print("Y"+i+": ");
+                        }
+                        val = scanner.nextDouble();
+                        point.setEl(i, j, val);
+                    }
+                }
+                System.out.print("Masukkan nilai X yang ingin ditaksir"+": ");
+                double X = scanner.nextDouble();
+                String output = Interpolasi.interpolasiGaus(N, point, X);
+                System.out.println(output);
+                savefile(output);
             }
-        }
-
-        else if(menu == 6){
+            else{
+                 try {
+                        int N;
+                        System.out.print("N: ");
+                        N = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m = new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        String output = Interpolasi.interpolasiGaus(N,m, 0);
+                        System.out.println(output);
+                        savefile(output);
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
+            }
+        }   
+        else if(menu == 5){
             Interpolasi interpolasi = new Interpolasi();
             subInput = subMenuinput();
 
@@ -189,9 +380,19 @@ public class Menu{
                 Continue();
             }
         }
+
+        else if(menu == 6){
+            subInput = subMenuinput();
+
+            if(subInput == 1){
+                Regresi.regresiberganda();
+                Continue();
+            }
+        }
         
         scanner.close();
 
     }
 }
+
 

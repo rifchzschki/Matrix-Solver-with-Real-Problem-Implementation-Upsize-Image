@@ -3,12 +3,7 @@ import java.util.Scanner;
 public class Balikan {
     public Matrix result;
     Scanner scanner = new Scanner(System.in);
-    public void Gausjordaninvers(){//APAKAH BELUM SELESAI?
-        System.out.print("\nMasukan N : ");
-        int n = scanner.nextInt();
-        Matrix m = new Matrix(n,n);
-        m.readMatrix();
-        m.printMatrix();
+    public void Gausjordaninvers(Matrix m){//APAKAH BELUM SELESAI?
         if(m.inverseMatrix()){
             System.out.println("Hasil Invers :");
             m.printMatrix();
@@ -28,14 +23,4 @@ public class Balikan {
 
     }
 
-    public void runAdjoint(){
-        System.out.print("\nMasukan N : ");
-        int n = scanner.nextInt();
-        Matrix m = new Matrix(n,n);
-        m.readMatrix();
-        m.printMatrix();
-        m = Adjoint(m);
-        System.out.println("Hasil Invers :");
-        m.printMatrix();
-    }
 }
