@@ -5,7 +5,6 @@ import java.util.*;
 
 public class SPL {
     static Scanner scan = new Scanner(System.in);
-
     public static void SPLGaus(){
         System.out.print("M:");
         int m = scan.nextInt();
@@ -17,8 +16,6 @@ public class SPL {
     }
 
     public static void eksekusiGauss(Matrix mat){
-        // Matrix M = new Matrix(mat);
-        // M.Copy(mat);
         mat.eselonBaris();
         mat.printMatrix();
   
@@ -53,56 +50,19 @@ public class SPL {
         }
     }
     public static void parametricSolution(Matrix m){
-        System.out.println("parametric");
-        String[] solution = new String[m.GetLastIdxBrs()+1];
-        double temp;
-        solution[m.GetLastIdxBrs()] = "k";
-        double[] coef = new double[m.GetLastIdxKol()-1];
-        double[] cons = new double[m.GetLastIdxKol()-1];
-
-        cons[m.GetLastIdxBrs()-1]=m.GetElmt(m.GetLastIdxBrs()-1, m.GetLastIdxKol());
-
-        for(int i=m.GetLastIdxBrs()-1;i>=0;--i){
-            if (i<m.GetLastIdxBrs()-1){
-                System.out.println(cons[i]);
-                cons[i]=findCons(cons,i);
+        System.out.println("\nSolusi parametrik:");
+        for (int row = m.GetLastIdxBrs()-1; row >= 0; row--) {
+            System.out.print("x" + (row + 1) + " = " + m.GetElmt(row, m.GetLastIdxKol()));
+            for (int col = row + 1; col < m.GetLastIdxKol(); col++) {
+                System.out.print(" - " + m.GetElmt(row, col) + "x" + (col + 1));
             }
-            System.out.println(cons[i]);
-            // solution[i] = String.valueOf(m.GetElmt(i, m.GetLastIdxKol()));
-            // benerin dlu cari tau cara printnya
-            //simpan koefisien dari hasil perhitungan
-            // cons -= m.GetElmt(i, m.GetLastIdxKol());
-            // coef = 0;
-            for(int j=i+1;j<m.GetLastIdxKol();++j){
-                // coef += m.GetElmt(i, j)*(-1);
-                // coef = m.GetElmt(i,j)*temp;
-                // System.out.println(m.GetElmt(i,j));
-                // solution[i] += ("-"+String.valueOf(m.GetElmt(i,j))+solution[j]);
-            }
-            // solution[i] /= m.GetElmt(i, i);
+            System.out.println();
         }
-
-        for(int i=1;i<=m.GetLastIdxBrs()+1;++i){
-            System.out.println("x"+i+"="+solution[i-1]);
-        }
-
     }
-
-    public static double findCons(double[] arrRow, int k){
-        double cons=arrRow[k+1];
-
-        for(int i=arrRow.length-1; i>k;--i){
-            System.out.println("indx"+i);
-            cons-=arrRow[i];
-        }
-        
-        return cons;
-    }
-
+    
     public static void main(String[] args){
         SPL.SPLGaus();
     }
-
     public void getsolustioncramer(Matrix m, Matrix k){
         for (int i =0; i<= m.GetLastIdxBrs(); i++){    
             k = k.subcramer(m, i);
@@ -113,34 +73,17 @@ public class SPL {
 }
 
 
-    
 
 
 
 
+// 1 -1 0 0 1 3
+// 1 1 0 -3 0 6
+// 2 -1 0 1 -1 5
+// -1 2 0 -2 -1 -1
 
-    // void menuSPL (int pilihan){
-    //     switch(pilihan){
-    //         case 1:
-    //             System.out.println("Solusi SPL menggunakan eliminasi Gauss:");
-    //             // eksekusi metode
-    //             break;
-    //         case 2:
-    //             System.out.println("Solusi SPL menggunakan eliminasi Gauss-Jordan:");
-    //             // eksekusi metode 
-    //             break;
-    //         case 3:
-    //             System.out.println("Solusi SPL menggunakan eliminasi Matriks Balikan:");
-    //             // eksekusi metode 
-    //             break;
-    //         case 4:
-    //             System.out.println("Solusi SPL menggunakan eliminasi Kaidah Crammer:");
-    //             break;
-    //             // eksekusi metode 
-    //     }
-    // }
-
-
+// 1 1 2 4
+// 2 -1 1 2
+// 1 2 3 6
 
     
-

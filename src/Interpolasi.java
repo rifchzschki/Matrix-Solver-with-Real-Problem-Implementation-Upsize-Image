@@ -4,7 +4,7 @@ import java.util.*;
 public class Interpolasi {
     static Scanner scan = new Scanner(System.in);
     
-    static double pow(double x,double y)
+    static double pow(double x,int y)
     {
         
         if (y==0)
