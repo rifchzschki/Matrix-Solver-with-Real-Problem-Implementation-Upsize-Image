@@ -137,6 +137,7 @@ public class Menu{
         scanner.nextLine();
         if (menu == 1){
             subSpl = subMenuSPL();
+
         }
         else if (menu == 2){
             Determinan d = new Determinan();
@@ -145,7 +146,7 @@ public class Menu{
             if (subdeterminan == 1){
                 subInput = subMenuinput();
                 scanner.nextLine();
-                if (subInput == 1){
+                if (subInput == 1){//keyboard
                     System.out.print("\nMasukan N : ");
                     int n = scanner.nextInt();
                     Matrix m = new Matrix(n,n);
@@ -164,7 +165,7 @@ public class Menu{
                     savefile(consoleOutput);
                 }
                 else{
-                   try {
+                //    try {
                         System.out.print("Masukkan nama file(.txt) : ");
                         String a = scanner.nextLine();
                         Matrix m= new Matrix(1,1);
@@ -181,9 +182,9 @@ public class Menu{
                         
                         savefile(consoleOuput);
 
-                    } catch (FileNotFoundException e) {
-                        System.err.println("File not found: " + e.getMessage());
-                        Continue();
+                    // } catch (FileNotFoundException e) {
+                    //     System.err.println("File not found: " + e.getMessage());
+                    //     Continue();
                     }
                 }
             }

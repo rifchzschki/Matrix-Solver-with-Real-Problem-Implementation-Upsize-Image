@@ -73,7 +73,8 @@ public class Matrix {
         System.out.print("\n");
     }
 
-    public Matrix BacaFileMatriks(String matrixFileName) throws FileNotFoundException {
+    public Matrix BacaFileMatriks(String matrixFileName) throws FileNotFoundException 
+     {
         int NRow = 0;
         int NCol = 0;
         File bacafile = new File("test/input/"+matrixFileName);
@@ -772,6 +773,27 @@ public class Matrix {
         // Extract the inverse matrix from the augmented matrix
         return isInverse;
     }
+
+    public  Matrix multiplyMatrix(Matrix matrix1, Matrix matrix2) {
+               //asumsi square matrix
+        
+                Matrix result = new Matrix(matrix1.row, matrix1.row);
+        
+                for (int i = 0; i < matrix1.row; i++) {
+                    for (int j = 0; j < matrix1.row; j++) {
+                        double sum = 0.0;
+                        for (int k = 0; k < matrix1.row; k++) {
+                            sum += matrix1.matrix[i][k] * matrix2.matrix[k][j];
+                        }
+                        result.matrix[i][j]=sum;
+                    }
+                }
+        
+                return result;
+            }
+
+
+
 }
 
 
