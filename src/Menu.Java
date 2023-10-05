@@ -320,7 +320,7 @@ public class Menu{
             }
                 
         }
-        
+    
         else if (menu == 3){
             Balikan invers = new Balikan();
             subbalikan = subMenuBalikan();

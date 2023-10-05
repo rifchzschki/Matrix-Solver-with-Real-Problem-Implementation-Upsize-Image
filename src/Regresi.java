@@ -73,7 +73,6 @@ public class Regresi {
 
         }
         Matrix invAA = (opBalikan.Adjoint(matMultiple(transpose(x), x)));
-        invAA.printMatrix();
         Mresult = matMultiple((invAA),(matMultiple(transpose(x), Y)));
         // Mresult.printMatrix();
         // printEquation(Mresult,X);
@@ -111,9 +110,99 @@ public class Regresi {
         return consoleOutput;
     }
 
-    // public static void main(String[] args){
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Masukkan jumlah peubah x(n) : ");
+        int n = scanner.nextInt();
+        n += 1;
+        System.out.print("Masukkan jumlah sampel(m) : ");
+        int m = scanner.nextInt();
+        Matrix x = new Matrix(m, n);
+        double val;
+        for (int i =0; i<m;i++){
+            for (int j=0; j <n;j++){
+                if (j == n-1){
+                    System.out.print("Y" +(i+1)+" : " );
+                }
+                else{
+                    System.out.print("X" +(j+1)+" : ");
+                }
+                val = scanner.nextDouble();
+                x.setEl(i, j, val);
+            }
+        }
+        System.out.println("Masukkan nilai X yang ingin ditaksir: ");
+        double [] X = new double[n];
+        for(int i=0;i<n-1;i++){
+            System.out.print("X" + (i+1) + ": ");
+            X[i] = scanner.nextDouble();
+
+        }
+        Matrix A = new Matrix(1,1);
+        A = Regresi.regresiberganda(m, n, x);
+        A = Regresi.hitungbeta(A);
+        String output = Regresi.printEquation(A,X);
+        System.out.println(output);
+        scanner.close();
         
-    //     regresiberganda();
-    // }
+    }
 
 }
+
+
+// testcase
+// 40 22 6
+// 46 19 8
+// 43 20 7
+// 39 19 5
+// 54 16 12
+// 42 20 6
+// 46 16 8
+// 47 19 9
+// 44 20 7
+// 46 18 8
+
+// testcase
+// 10 7 23
+// 2 3 7
+// 4 2 15
+// 6 4 17
+// 8 6 23
+// 7 5 22
+// 4 3 10
+// 6 3 14
+// 7 4 20
+// 6 3 19
+
+//testcase
+// 8	125	37
+// 10	137	41
+// 7	100	34
+// 12	122	39
+// 9	129	40
+// 10	128	42
+// 7	98	38
+// 8	103	42
+// 11	130	40
+// 8	95	36
+// 10	115	41
+// 8	105	38
+
+//testcase 
+// 10 7 23
+// 2 3 7
+// 4 2 15
+// 6 4 17
+// 8 6 23
+// 7 5 22
+// 4 3 10
+// 6 3 14
+// 7 4 20
+// 6 3 19
+
+//testcase
+// 1000	3	5	50000
+// 1500	4	10	60000
+// 2000	4	8	80000
+// 1200	2	6	55000
+// 1800	3	12	72000
