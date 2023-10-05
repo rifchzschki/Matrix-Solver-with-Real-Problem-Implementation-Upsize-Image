@@ -4,26 +4,8 @@ import java.util.*;
 public class Regresi {
     static Scanner scan = new Scanner(System.in);
 
-    public static void regresiberganda(){
-        System.out.print("Masukkan jumlah peubah x(n) : ");
-        int n = scan.nextInt();
-        n += 1;
-        System.out.print("Masukkan jumlah sampel(m) : ");
-        int m = scan.nextInt();
-        double [][] x = new double [m][n];
-
-        for (int i =0; i<m;i++){
-            for (int j=0; j <n;j++){
-                if (j == n-1){
-                    System.out.print("Y" +(i+1)+" : " );
-                }
-                else{
-                    System.out.print("X" +(j+1)+" : ");
-                }
-                x[i][j] = scan.nextDouble();
-            }
-        }
-
+    public static Matrix regresiberganda(int m, int n, Matrix x){
+        
         Matrix regresi = new Matrix(m,n+1);
 
         for (int i =0; i<=regresi.GetLastIdxBrs();i++){
@@ -32,16 +14,16 @@ public class Regresi {
                     regresi.setEl(i, j, 1);
                 }
                 else{
-                    regresi.setEl(i, j, x[i][j-1]);
+                    regresi.setEl(i, j, x.GetElmt(i, j-1));
                 }
                 
             }
         }
 
         
-        //(X'X)^-1(X'Y)
-        hitungbeta(regresi);
-
+        // //(X'X)^-1(X'Y)
+        // hitungbeta(regresi, X);
+        return regresi;
 
     
     }
@@ -74,9 +56,9 @@ public class Regresi {
         return A;
     }
 
-    public static void hitungbeta(Matrix m){
+    public static Matrix hitungbeta(Matrix m){
         Balikan opBalikan = new Balikan();
-        Matrix X = new Matrix(m.GetLastIdxBrs()+1, m.GetLastIdxKol());
+        Matrix x = new Matrix(m.GetLastIdxBrs()+1, m.GetLastIdxKol());
         Matrix Y = new Matrix(m.GetLastIdxBrs()+1,1);
         Matrix Mresult;
 
@@ -85,18 +67,23 @@ public class Regresi {
                 if(j==m.GetLastIdxKol()){
                     Y.setEl(i, 0, m.GetElmt(i, j));
                 } else {
-                    X.setEl(i, j, m.GetElmt(i, j));
+                    x.setEl(i, j, m.GetElmt(i, j));
                 }
             }
 
         }
-        Matrix invAA = (opBalikan.Adjoint(matMultiple(transpose(X), X)));
-        Mresult = matMultiple((invAA),(matMultiple(transpose(X), Y)));
+        Matrix invAA = (opBalikan.Adjoint(matMultiple(transpose(x), x)));
+        invAA.printMatrix();
+        Mresult = matMultiple((invAA),(matMultiple(transpose(x), Y)));
         // Mresult.printMatrix();
-        printEquation(Mresult);
+        // printEquation(Mresult,X);
+        return Mresult;
         
     }
-    public static void printEquation(Matrix m){
+    public static String printEquation(Matrix m, double[] X){
+        Capturer capturer = new Capturer();
+        capturer.mulai();
+
         String hasil = String.format("P(X)= (%.4f)",m.GetElmt(0, 0));
         System.out.print(hasil);
         
@@ -107,18 +94,25 @@ public class Regresi {
         System.out.println();
         
         
-        System.out.print("X"+": ");
-        double X = scan.nextDouble();
-        double Y = 0;
+        
+        double Y = m.GetElmt(0,0);
+        System.out.print("f(");
         for (int i =1;i<=m.GetLastIdxBrs();i++){
-            Y+=X*m.GetElmt(i,0);
+            Y+=X[i-1]*m.GetElmt(i,0);
+            System.out.printf("%.02f",X[i-1]);
+            if(i<m.GetLastIdxBrs()){
+                System.out.print(",");
+
+            }
         }
-        Y+=m.GetElmt(0, 0);
-        System.out.print("f("+X+")"+"= "+ Y);
+        System.out.printf(") = %.02f",Y);
+
+        String consoleOutput = capturer.stop();
+        return consoleOutput;
     }
 
-    public static void main(String[] args){
-        Regresi.regresiberganda();
-    }
+    // public static void main(String[] args){
+    //     Regresi.regresiberganda();
+    // }
 
 }

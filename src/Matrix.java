@@ -96,6 +96,7 @@ public class Matrix {
         M.row = NRow;
         M.col = NCol;
         return M;
+        
     }
     
     
