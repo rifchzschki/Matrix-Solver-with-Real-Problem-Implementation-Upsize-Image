@@ -1,4 +1,4 @@
-package src;
+package src.Matrix;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 

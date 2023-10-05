@@ -1,4 +1,4 @@
-package src;
+package src.Matrix;
 
 public class DriverMain {
     public static void main (String[] args) {

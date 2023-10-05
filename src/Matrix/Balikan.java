@@ -1,4 +1,4 @@
-package src;
+package src.Matrix;
 import java.util.Scanner;
 public class Balikan {
     public Matrix result;

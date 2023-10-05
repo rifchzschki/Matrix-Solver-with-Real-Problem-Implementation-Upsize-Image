@@ -1,4 +1,4 @@
-package src;
+package src.Matrix;
 import java.io.IOException;
 import java.util.*;
 import javax.imageio.ImageIO;
