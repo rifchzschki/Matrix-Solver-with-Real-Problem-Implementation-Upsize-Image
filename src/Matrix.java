@@ -49,25 +49,29 @@ public class Matrix {
      {
         int NRow = 0;
         int NCol = 0;
+        int col = 0;
         File bacafile = new File("test/input/"+matrixFileName);
         Matrix M = new Matrix(1000,1000);
 
         try (Scanner scanBaris = new Scanner(bacafile)) {
             while (scanBaris.hasNextLine()) {
                 NRow++;
-                NCol = 0;
+                // NCol = 0;
                 Scanner scanNumber = new Scanner(scanBaris.nextLine());
                 while (scanNumber.hasNextFloat()) {
+                    if(NRow==1){
+                        col+=1;
+                    }
                     NCol++;
                     if (scanNumber.hasNextFloat()) {
-                        M.matrix[NRow - 1][NCol - 1] = scanNumber.nextFloat();
+                        M.matrix[NRow - 1][(NCol%col) - 1] = scanNumber.nextFloat();
                     }
                 }
             }
         }
 
         M.row = NRow;
-        M.col = NCol;
+        M.col = col;
         return M;
         
     }
