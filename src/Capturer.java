@@ -24,8 +24,4 @@ public class Capturer {
         System.setOut(initiate);
         return output.toString();
     }
-    
-    public PrintStream getPrintStream() {
-        return new PrintStream(output);
-    }
 }

@@ -1,9 +1,7 @@
 package src;
 
-import java.io.FileNotFoundException;
-
 public class DriverMain {
-    public static void main (String[] args) throws FileNotFoundException{
+    public static void main (String[] args) {
         Menu menu = new Menu();
         menu.run();
     }
