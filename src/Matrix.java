@@ -106,12 +106,12 @@ public class Matrix {
         this.matrix[i][j] = val;
     }
 
-    public int setCol(){
-        return this.col;
+    public void setCol(int n){
+        this.col=n;
     }
 
-    public int setRow(){
-        return this.row;
+    public void setRow(int n){
+        this.row=n;
     }
 
     /* ********** GET ********** */
