@@ -548,6 +548,7 @@ public class Menu{
                         String a = scanner.nextLine();
                         Matrix m = new Matrix(1,1);
                         m = m.BacaFileMatriks(a);
+                        m.printMatrix();
                         String output = Interpolasi.interpolasiGaus(N,m, 0);
                         System.out.println(output);
                         savefile(output);
@@ -606,7 +607,7 @@ public class Menu{
         }
         else if(menu == 6){
             subInput = subMenuinput();
-
+            scanner.nextLine();
             if(subInput == 1){
                 System.out.print("Masukkan jumlah peubah x(n) : ");
                 int n = scanner.nextInt();
@@ -641,6 +642,31 @@ public class Menu{
                 String output = Regresi.printEquation(A,X);
                 System.out.println(output);
                 savefile(output);
+            }
+            else{
+                try {
+                    System.out.print("Masukkan jumlah sampel(m) : ");
+                    int n = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Masukkan nama file(.txt) : ");
+                    String a = scanner.nextLine();
+                    Matrix m = new Matrix(1,1);
+                    m = m.BacaFileMatriks(a);
+                    m.printMatrix();
+                    int peubah = m.GetLastIdxBrs() ;
+                    double [] X = new double[peubah];
+                    X = m.GetRow(n);
+                    m.setRow(n-1);
+                    Matrix A = new Matrix(1,1);
+                    A = Regresi.regresiberganda(n, peubah, m);
+                    A = Regresi.hitungbeta(A);
+                    String output = Regresi.printEquation(A,X);
+                    System.out.println(output);
+                    savefile(output);
+                } catch (FileNotFoundException e) {
+                    System.err.println("File not found: " + e.getMessage());
+                    Continue();
+                }
             }
         }
         
