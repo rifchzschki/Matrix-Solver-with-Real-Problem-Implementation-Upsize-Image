@@ -74,14 +74,19 @@ public class SPL {
     
     public static void main(String[] args){
         SPL.SPLGaus(false);
+        Matrix m = new Matrix(3, 3);
+        m.readMatrix();
+        SPL.getsolustioncramer(m);
 
     }
-    public void getsolustioncramer(Matrix m, Matrix k){
+    public static void getsolustioncramer(Matrix m){
+        Matrix k;
         for (int i =0; i<= m.GetLastIdxBrs(); i++){    
-            k = k.subcramer(m, i);
+            k = m.subcramer(i);
             double det = k.getDeterminant()/m.getDeterminant();
             System.out.format("X%d = %f\n",i+1, det);
         }
+
     }
 }
 

@@ -395,24 +395,16 @@ public class Matrix {
         }
     }
 
-    public Matrix subcramer(Matrix m, int k){
-        double [] temp = new double[m.row];
-        for (int i =0; i< m.row;i++){
-            for (int j =0; j < m.col;j++){
-                if (j == m.col-1){
-                    temp[i] = m.matrix[i][j];
-                }
-            }
+    public Matrix subcramer(int k){
+        double [] temp = new double[this.row];
+        for (int i =0; i< this.row;i++){
+                temp[i] = this.matrix[i][this.col-1];
         }
-        Matrix N = new Matrix(m);
-        N.Copy(m);
+        Matrix N = new Matrix(this);
+        N.Copy(this);
         N.col -= 1;
-        for (int i =0; i< N.col;i++){
-            for (int j =0; j < N.row;j++){
-                if (i == k){
-                    N.matrix[j][i] = temp[j];
-                }
-            }
+        for (int j =0; j < N.row;j++){
+            N.matrix[j][k] = temp[j];
         }
 
         return N;
