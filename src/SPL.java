@@ -5,49 +5,37 @@ import java.util.*;
 
 public class SPL {
     static Scanner scan = new Scanner(System.in);
-    public static void SPLGaus(boolean jordan){
-        System.out.print("M:");
-        int m = scan.nextInt();
-        System.out.print("N:");
-        int n = scan.nextInt();
-        Matrix mat = new Matrix(m, n+1);
-        mat.readMatrix();
-        if(jordan){
-            eksekusiGauss(mat,true);
-        } else {
-            eksekusiGauss(mat,false);
-        }
-
-    }
-
-    // public static void eksekusiGaussJordan(mat){
-
+    // public static void SPLGaus(Matrix mat){
+    //     eksekusiGauss(mat);
     // }
 
-    public static void eksekusiGauss(Matrix mat,boolean jordan){
-        mat.eselonBaris();
-        if (jordan){
+    public static String eksekusiGauss(Matrix mat, boolean IsGausJordan){
+        if (!IsGausJordan){
+            mat.eselonBaris();
+        }
+        else{
             mat.eselonBarisReduksi();
         }
-        mat.printMatrix();
   
-        if(mat.GetElmt(mat.GetLastIdxBrs(), mat.GetLastIdxKol()-1)==0 || ((mat.GetLastIdxBrs()+1)<(mat.GetLastIdxKol()))){
-            if(mat.GetElmt(mat.GetLastIdxBrs(), mat.GetLastIdxKol())==0 || ((mat.GetLastIdxBrs()+1)<(mat.GetLastIdxKol()))){//solusi banyak
-                parametricSolution(mat);                
+        if(mat.GetElmt(mat.GetLastIdxBrs(), mat.GetLastIdxKol()-1)==0){
+            if(mat.GetElmt(mat.GetLastIdxBrs(), mat.GetLastIdxKol())==0){//solusi banyak
+                return parametricSolution(mat);                
             }else{//solusi tidak ada
+                Capturer capturer = new Capturer();
+                capturer.mulai();
                 System.out.println("Solusi tidak ada.");
+                String consoleoutput = capturer.stop();
+                return consoleoutput;
             }
         } else {
-            System.out.println("ada");
-            singleSolution(mat);
+            return singleSolution(mat);
         }
       
 
     }
     
-    public static void singleSolution(Matrix m){
-        double[] solution = new double[m.GetLastIdxKol()];
-
+    public static String singleSolution(Matrix m){
+        double[] solution = new double[m.GetLastIdxBrs()+1];
 
         for(int i=m.GetLastIdxBrs();i>=0;--i){
             solution[i] = m.GetElmt(i, m.GetLastIdxKol());
@@ -57,11 +45,19 @@ public class SPL {
             solution[i] /= m.GetElmt(i, i);
         }
 
+        Capturer capturer = new Capturer();
+        capturer.mulai();
+        System.out.println("Solusi Tunggal :");
         for(int i=1;i<=m.GetLastIdxBrs()+1;++i){
             System.out.println("x"+i+"="+solution[i-1]);
         }
+        String consoleoutput = capturer.stop();
+        return consoleoutput;
     }
-    public static void parametricSolution(Matrix m){
+
+    public static String parametricSolution(Matrix m){
+        Capturer capturer = new Capturer();
+        capturer.mulai();
         System.out.println("\nSolusi parametrik:");
         for (int row = m.GetLastIdxBrs()-1; row >= 0; row--) {
             System.out.print("x" + (row + 1) + " = " + m.GetElmt(row, m.GetLastIdxKol()));
@@ -70,17 +66,23 @@ public class SPL {
             }
             System.out.println();
         }
+        String consoleoutput = capturer.stop();
+        return consoleoutput;
     }
     
-    public static void main(String[] args){
-        SPL.SPLGaus(false);
-        Matrix m = new Matrix(3, 3);
-        m.readMatrix();
-        SPL.getsolustioncramer(m);
+    // public static void main(String[] args){
+    //     SPL.SPLGaus(false);
+    //     Matrix m = new Matrix(3, 3);
+    //     m.readMatrix();
+    //     SPL.getsolustioncramer(m);
 
-    }
-    public static void getsolustioncramer(Matrix m){
-        Matrix k;
+    // }
+    // public static void getsolustioncramer(Matrix m){
+    //     Matrix k;
+    // // public static void main(String[] args){
+    // //     SPL.SPLGaus();
+    // // }
+    public void getsolustioncramer(Matrix m, Matrix k){
         for (int i =0; i<= m.GetLastIdxBrs(); i++){    
             k = m.subcramer(i);
             double det = k.getDeterminant()/m.getDeterminant();

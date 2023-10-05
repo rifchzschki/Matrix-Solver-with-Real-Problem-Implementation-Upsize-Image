@@ -137,7 +137,94 @@ public class Menu{
         scanner.nextLine();
         if (menu == 1){
             subSpl = subMenuSPL();
+            if (subSpl == 1){
+                subInput = subMenuinput();
+                scanner.nextLine();
+                if (subInput ==1){
+                    System.out.print("M:");
+                    int m = scanner.nextInt();
+                    System.out.print("N:");
+                    int n = scanner.nextInt();
+                    Matrix mat = new Matrix(m, n);
+                    mat.readMatrix();
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
+                    System.out.println("\n Input Matrix : \n");
+                    mat.printMatrix();
 
+                    String consoleOutput = capturer.stop();
+                    String output = SPL.eksekusiGauss(mat, false);
+                    String result = consoleOutput + output;
+                    System.out.println(result);
+                    savefile(result);
+                }
+                else{
+                    try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m= new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        String ConsoleOuput = capturer.stop();
+                        String output = SPL.eksekusiGauss(m, false);
+                        String result = ConsoleOuput + output;
+                        System.out.println(result);
+                        savefile(result);
+
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
+                }
+            }
+            else if (subSpl == 2){
+                subInput = subMenuinput();
+                scanner.nextLine();
+                if (subInput ==1){
+                    System.out.print("M:");
+                    int m = scanner.nextInt();
+                    System.out.print("N:");
+                    int n = scanner.nextInt();
+                    Matrix mat = new Matrix(m, n);
+                    mat.readMatrix();
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
+                    System.out.println("\n Input Matrix : \n");
+                    mat.printMatrix();
+
+                    String consoleOutput = capturer.stop();
+                    String output = SPL.eksekusiGauss(mat, true);
+                    String result = consoleOutput + output;
+                    System.out.println(result);
+                    savefile(result);
+                }
+                else{
+                    try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m= new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        String ConsoleOuput = capturer.stop();
+                        String output = SPL.eksekusiGauss(m, true);
+                        String result = ConsoleOuput + output;
+                        System.out.println(result);
+                        savefile(result);
+
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
+                }
+            }
         }
         else if (menu == 2){
             Determinan d = new Determinan();
