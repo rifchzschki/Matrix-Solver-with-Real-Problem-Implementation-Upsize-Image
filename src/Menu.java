@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Menu{
     Scanner scanner = new Scanner(System.in);
-    
     public Menu() {
 
     }
@@ -645,22 +644,28 @@ public class Menu{
             }
             else{
                 try {
-                    System.out.print("Masukkan jumlah sampel(m) : ");
+                    System.out.print("Masukkan jumlah peubah x(n) : ");
                     int n = scanner.nextInt();
+                    System.out.print("Masukkan jumlah sampel(m) : ");
                     scanner.nextLine();
-                    System.out.print("Masukkan nama file(.txt) : ");
+                    int m = scanner.nextInt();
+                    System.out.print("Masukkan nama file Matrix(.txt) : ");
                     String a = scanner.nextLine();
-                    Matrix m = new Matrix(1,1);
-                    m = m.BacaFileMatriks(a);
-                    m.printMatrix();
-                    int peubah = m.GetLastIdxBrs() ;
-                    double [] X = new double[peubah];
-                    X = m.GetRow(n);
-                    m.setRow(n-1);
+                    scanner.nextLine();
+                    System.out.print("Masukkan nama file Peubah(.txt) : ");
+                    String b = scanner.nextLine();
+                    Matrix M = new Matrix(1,1);
+                    double [] arrpeub;
+                    M = M.BacaFileMatriks(a);
+                    M.printMatrix();
+                    arrpeub = M.BacaFileArray(b,n);
+                    System.out.println(arrpeub);
+                    
+                    // M.setRow(n-1);
                     Matrix A = new Matrix(1,1);
-                    A = Regresi.regresiberganda(n, peubah, m);
+                    A = Regresi.regresiberganda(m, n, M);
                     A = Regresi.hitungbeta(A);
-                    String output = Regresi.printEquation(A,X);
+                    String output = Regresi.printEquation(A,arrpeub);
                     System.out.println(output);
                     savefile(output);
                 } catch (FileNotFoundException e) {

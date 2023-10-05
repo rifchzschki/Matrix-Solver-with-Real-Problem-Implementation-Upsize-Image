@@ -45,6 +45,21 @@ public class Matrix {
         System.out.print("\n");
     }
 
+    public double[] BacaFileArray(String ArrayFileName, int n) throws FileNotFoundException {
+        Scanner file2Scanner = new Scanner(new File("test/input/"+ArrayFileName));
+
+        // Inisialisasi matriks kedua
+        double[] arr = new double[n];
+
+        // Baca elemen-elemen matriks kedua
+        for (int i = 0; i < n; i++) {
+            arr[i] = file2Scanner.nextDouble();
+        }
+
+        // Tutup file kedua
+        file2Scanner.close();
+        return arr;
+    }
     public Matrix BacaFileMatriks(String matrixFileName) throws FileNotFoundException {
         int NRow = 0;
         int NCol = 0;
