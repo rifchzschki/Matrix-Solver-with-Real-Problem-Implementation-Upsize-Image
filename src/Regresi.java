@@ -110,43 +110,6 @@ public class Regresi {
         return consoleOutput;
     }
 
-    public static void main(String[] args){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Masukkan jumlah peubah x(n) : ");
-        int n = scanner.nextInt();
-        n += 1;
-        System.out.print("Masukkan jumlah sampel(m) : ");
-        int m = scanner.nextInt();
-        Matrix x = new Matrix(m, n);
-        double val;
-        for (int i =0; i<m;i++){
-            for (int j=0; j <n;j++){
-                if (j == n-1){
-                    System.out.print("Y" +(i+1)+" : " );
-                }
-                else{
-                    System.out.print("X" +(j+1)+" : ");
-                }
-                val = scanner.nextDouble();
-                x.setEl(i, j, val);
-            }
-        }
-        System.out.println("Masukkan nilai X yang ingin ditaksir: ");
-        double [] X = new double[n];
-        for(int i=0;i<n-1;i++){
-            System.out.print("X" + (i+1) + ": ");
-            X[i] = scanner.nextDouble();
-
-        }
-        Matrix A = new Matrix(1,1);
-        A = Regresi.regresiberganda(m, n, x);
-        A = Regresi.hitungbeta(A);
-        String output = Regresi.printEquation(A,X);
-        System.out.println(output);
-        scanner.close();
-        
-    }
-
 }
 
 

@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Balikan {
     public Matrix result;
     Scanner scanner = new Scanner(System.in);
-    public void Gausjordaninvers(Matrix m){//APAKAH BELUM SELESAI?
+    public void Gausjordaninvers(Matrix m){
         if(m.inverseMatrix()){
             System.out.println("Hasil Invers :");
             m.printMatrix();

@@ -5,9 +5,6 @@ import java.util.*;
 
 public class SPL {
     static Scanner scan = new Scanner(System.in);
-    // public static void SPLGaus(Matrix mat){
-    //     eksekusiGauss(mat);
-    // }
 
     public static String eksekusiGauss(Matrix mat, boolean IsGausJordan){
         if (IsGausJordan == true){
@@ -70,42 +67,6 @@ public class SPL {
         return consoleoutput;
     }
     
-    // public static void main(String[] args){
-    //     SPL.SPLGaus(false);
-    //     Matrix m = new Matrix(3, 3);
-    //     m.readMatrix();
-    //     SPL.getsolustioncramer(m);
-
-    // }
-    // public static void getsolustioncramer(Matrix m){
-    //     Matrix k;
-    // // public static void main(String[] args){
-    // //     SPL.SPLGaus();
-    // // }
-    
-    // public Matrix inverseGausJordan(Matrix m)
-    // {
-    //     Matrix n = new Matrix(m.row,1);
-    //     for (int i =0; i < m.row; i++){
-    //         n.matrix[i][0] = m.matrix[i][m.col-1];
-    //     }
-    //     m.setCol()-1;
-    //     m.printMatrix();
-    //     if (m.inverseMatrix()){
-    //         m.printMatrix();
-    //         n.printMatrix();
-    //         //contoh solusi jadi
-    //         Matrix result = new Matrix(n);
-    //         result = matMultiple(m, n);
-    //         result.printMatrix();
-    //         for (int i =0;i<result.row;i++)
-    //         {
-    //             System.out.println("solusi  X" + (i+1) + " : " + result.GetElmt(i, 0));
-    //         }
-    //     }
-        
-        
-    // }
 
     public static String getsolustioncramer(Matrix m, Matrix k){
         Capturer capturer = new Capturer();

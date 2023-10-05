@@ -203,13 +203,6 @@ public class Interpolasi {
             }
             solution[i]=tempresult;
         }
-        
-        //test print solusi
-        // System.out.print("[ ");
-        // for (int i =0 ;i<16;i++){
-        //     System.out.print(" " + solution[i]+" ");
-        // }
-        // System.out.print("] ");
 
         double hasil=0;
         tempi=0;

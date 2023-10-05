@@ -547,7 +547,6 @@ public class Menu{
                         String a = scanner.nextLine();
                         Matrix m = new Matrix(1,1);
                         m = m.BacaFileMatriks(a);
-                        m.printMatrix();
                         String output = Interpolasi.interpolasiGaus(N,m, 0);
                         System.out.println(output);
                         savefile(output);
