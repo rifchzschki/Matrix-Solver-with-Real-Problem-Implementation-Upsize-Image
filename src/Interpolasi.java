@@ -1,8 +1,9 @@
 package src;
-import java.io.*;
+import java.io.IOException;
 import java.util.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 
 
@@ -558,27 +559,6 @@ public int bicubicSplineInterpolationBonus(BufferedImage foto, double pixelx, do
     }  
 
 
-
-
-
-    // public static void main(String[] args){
-    //     // Interpolasi.interpolasiGaus();
-    //     Matrix m = new Matrix(1,1 );
-    //     String a = "cupi.txt";
-    //     Interpolasi nget = new Interpolasi();
-    //     nget.bonus();
-    //     // try{
-    //     //     m = m.BacaFileMatriks(a);
-    //     //     Interpolasi.bicubicSplineInterpolation(m);
-    //     // }catch (Exception e)
-    //     // {
-    //     //     System.err.println("An error occurred: " + e.getMessage());
-    //     // }
-
-    // }
-        
-        // double x = pow(2,10);
-        // System.out.println(x);
 }
 
 

@@ -24,37 +24,9 @@ public class Matrix {
         this.row = m.row;
         this.col = m.col;
         this.matrix = new double[m.row][m.col];
-        // for (int i = 0; i < matrix.length; i++){
-        //     for (int j = 0; j < matrix[0].length; j++)
-        //     {
-        //         this.matrix[i][j] = matrix[i][j];
-        //     }
-        // this.b[i] = b[i];
-        // }
+        
     }
-    // public void createAugmentedMatrix() //ngebuat augmented matrix dari matrix a dan persamaan b,ax=b
-    // {
-    //         for(int i = 0; i < row; i++)
-    //         {
-    //             for(int j = 0; j < col+1; j++)
-    //             {   
-    //                 if (j == col)
-    //                 {
-    //                     this.augmentedMatrix[i][j] = this.b[i];
-    //                 }
-    //                 else
-    //                 {
-    //                     this.augmentedMatrix[i][j] = this.matrix[i][j];
-    //                 }
-    //             }
-    //         }
-    //     }
-    
-    
-    
-    
 
-    
     /* ********** INPUT/OUTPUT MATRIX ********** */
     public void readMatrix(){ //procedure baca matrix dari input keyboard
     
