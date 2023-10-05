@@ -45,32 +45,36 @@ public class Matrix {
         System.out.print("\n");
     }
 
-    public Matrix BacaFileMatriks(String matrixFileName) throws FileNotFoundException 
-     {
+    public Matrix BacaFileMatriks(String matrixFileName) throws FileNotFoundException {
         int NRow = 0;
         int NCol = 0;
-        File bacafile = new File("test/input/"+matrixFileName);
-        Matrix M = new Matrix(1000,1000);
-
+        int col =0;
+        File bacafile = new File("test/input/" + matrixFileName);
+        Matrix M = new Matrix(1000, 1000);
+    
         try (Scanner scanBaris = new Scanner(bacafile)) {
             while (scanBaris.hasNextLine()) {
                 NRow++;
-                NCol = 0;
+                // NCol = 0;
                 Scanner scanNumber = new Scanner(scanBaris.nextLine());
                 while (scanNumber.hasNextFloat()) {
-                    NCol++;
-                    if (scanNumber.hasNextFloat()) {
-                        M.matrix[NRow - 1][NCol - 1] = scanNumber.nextFloat();
+                    if (NRow == 1){
+                        col++;
                     }
+                    // if (NRow <= M.row && NCol < M.col) {
+                        NCol++;
+                        M.matrix[NRow - 1][(NCol % col)-1] = scanNumber.nextFloat();
+                    // }
+                    
                 }
             }
         }
-
+    
         M.row = NRow;
-        M.col = NCol;
+        M.col = col;
         return M;
-        
     }
+    
     
     
     public static void writeProgramOutputToFile(String fileName, String data) {
