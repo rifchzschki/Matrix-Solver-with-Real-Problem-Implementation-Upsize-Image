@@ -21,7 +21,7 @@ Lalu masuk ke dalam direktori bin:<br>
 
 Kemudian jalankan perintah berikut: <br>
 
-> `java src.DriverMain` > <br>
+> `java src.DriverMain` <br>
 
 Taraaa... program berhasil dijalankan...
 
@@ -60,4 +60,6 @@ Pada program ini kami membuat beberapa fitur dalam menyelesaikan Sistem Persamaa
   <br>
   <br>
   <br>
-  > _"Ditunggu ya tubes berikutnya, kami tidak stress kok..."_
+
+
+> _"Ditunggu ya tubes berikutnya, kami tidak stress kok..."_
