@@ -48,39 +48,29 @@ public class Matrix {
     public Matrix BacaFileMatriks(String matrixFileName) throws FileNotFoundException {
         int NRow = 0;
         int NCol = 0;
-<<<<<<< HEAD
         int col = 0;
+        int idx;
         File bacafile = new File("test/input/"+matrixFileName);
         Matrix M = new Matrix(1000,1000);
 
-=======
-        int col =0;
-        File bacafile = new File("test/input/" + matrixFileName);
-        Matrix M = new Matrix(1000, 1000);
-    
->>>>>>> 062f2bf8f5ca7772e430dd6f1719febbe8a968df
         try (Scanner scanBaris = new Scanner(bacafile)) {
             while (scanBaris.hasNextLine()) {
                 NRow++;
                 // NCol = 0;
                 Scanner scanNumber = new Scanner(scanBaris.nextLine());
                 while (scanNumber.hasNextFloat()) {
-<<<<<<< HEAD
                     if(NRow==1){
                         col+=1;
                     }
                     NCol++;
-                    if (scanNumber.hasNextFloat()) {
-                        M.matrix[NRow - 1][(NCol%col) - 1] = scanNumber.nextFloat();
-=======
-                    if (NRow == 1){
-                        col++;
->>>>>>> 062f2bf8f5ca7772e430dd6f1719febbe8a968df
+                    if(NCol%col==0){
+                        idx=col-1;
+                    }else{
+                        idx = (NCol%col) - 1;
                     }
-                    // if (NRow <= M.row && NCol < M.col) {
-                        NCol++;
-                        M.matrix[NRow - 1][(NCol % col)-1] = scanNumber.nextFloat();
-                    // }
+                    M.matrix[NRow - 1][idx] = scanNumber.nextFloat();
+                    
+                    
                     
                 }
             }
