@@ -103,7 +103,7 @@ public class Interpolasi {
          return consoleOutput;
     }
 
-    public static void bicubicSplineInterpolation(Matrix m){
+    public static String bicubicSplineInterpolation(Matrix m){
         Matrix bicubic = new Matrix(16,16);
         double[] solution = new double[16];
         //masukan nilai f(x,y)
@@ -243,9 +243,12 @@ public class Interpolasi {
                 break;
             }
         }
+        Capturer capturer = new Capturer();
+        capturer.mulai();
         System.out.print("f("+a+","+b+") : ");
         System.out.print(hasil);
-        
+        String consoleoutput = capturer.stop();
+        return consoleoutput;
     }
             
 public int bicubicSplineInterpolationBonus(BufferedImage foto, double pixelx, double pixely) throws IOException {

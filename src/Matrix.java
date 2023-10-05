@@ -134,16 +134,15 @@ public class Matrix {
         this.matrix[i][j] = val;
     }
 
+    public int setCol(){
+        return this.col;
+    }
 
-    /* ********** SELEKTOR ********** */
-    // public int GetFirstIdxBrs(Matrix M) {
-    //     return 0;
-    // }
+    public int setRow(){
+        return this.row;
+    }
 
-    // public int GetFirstIdxKol(Matrix M) {
-    //     return 0;
-    // }
-
+    /* ********** GET ********** */
     public double[] GetRow(int row){
         return this.matrix[row];
     }
@@ -187,6 +186,7 @@ public class Matrix {
         return result;
     }
 
+    // *** Operasi Matriks ***
     public double getDeterminant() {
         int size = this.row;
         double[][] M = new double[size][size];
@@ -202,7 +202,6 @@ public class Matrix {
         for (int i = 0; i < size; i++) {
             int pivot = i;
 
-            // Cari baris pivot yang elemen diagonalnya bukan nol.
             for (int j = i; j < size; j++) {
                 if (Math.abs(M[j][i]) > Math.abs(M[pivot][i])) {
                     pivot = j;
@@ -210,13 +209,10 @@ public class Matrix {
             }
 
     
-            // Jika elemen diagonal pivot adalah nol, maka determinan adalah nol.
             if (Math.abs(M[pivot][i]) < 1e-9) {
                 return 0.0;
             }
 
-    
-            // Tukar baris jika pivot bukan pada baris i.
             if (pivot != i) {
                 swaps++;
                 double[] temp = M[i];
@@ -224,8 +220,6 @@ public class Matrix {
                 M[pivot] = temp;
             }
 
-    
-            // Kurangi baris-baris di bawah pivot untuk membuat elemen di bawah pivot menjadi nol.
             for (int j = i + 1; j < size; j++) {
                 double factor = M[j][i] / M[i][i];
                 for (int k = i; k < size; k++) {
@@ -233,11 +227,9 @@ public class Matrix {
                 }
             }
 
-            // Kalikan determinan dengan elemen diagonal (pivot).
             determinant *= M[i][i];
         }
-    
-        // Jika jumlah tukar baris ganjil, maka determinan negatif.
+
         if (swaps % 2 == 1) {
             determinant = -determinant;
         }
@@ -256,10 +248,71 @@ public class Matrix {
         return A;
     }
 
-    
+       //fungsi inverse untuk bicubic
+    //CHECK LAGI
+    public boolean inverseMatrix() {
+        int n = this.row;
+        Matrix inverse = new Matrix(n, 2 * n);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                inverse.matrix[i][j] = this.matrix[i][j];
+                inverse.matrix[i][j + n] = (i == j) ? 1 : 0; // matrix identitas
+            }
+        }
 
-    
-    
+        inverse.eselonBarisReduksi(); // Apply Gauss-Jordan elimination
+        //check jumlah 0
+        int zeroCount=0;
+        boolean isInverse=true;//asumsi matrix memiliki inverse
+        for (int i = 0; i < n; i++) {
+            zeroCount=0;
+            for (int j = 0; j < n; j++) {
+                if (inverse.matrix[i][j]==0)
+                {
+                    zeroCount++;
+                }
+            }
+            if (zeroCount==n)
+            {
+                isInverse=false;
+            }
+        }
+        if (isInverse)
+        {
+            for (int i = 0; i < n; i++) {
+                for (int j = n; j < 2 * n; j++) {
+                    this.matrix[i][j - n] = inverse.matrix[i][j];
+            }
+        }
+        }
+        else{
+            System.out.println("\n Tidak ada inverse.");
+        }
+
+        // Extract the inverse matrix from the augmented matrix
+        return isInverse;
+    }
+
+    public  Matrix multiplyMatrix(Matrix matrix1, Matrix matrix2) {
+               //asumsi square matrix
+        
+                Matrix result = new Matrix(matrix1.row, matrix1.row);
+        
+                for (int i = 0; i < matrix1.row; i++) {
+                    for (int j = 0; j < matrix1.row; j++) {
+                        double sum = 0.0;
+                        for (int k = 0; k < matrix1.row; k++) {
+                            sum += matrix1.matrix[i][k] * matrix2.matrix[k][j];
+                        }
+                        result.matrix[i][j]=sum;
+                    }
+                }
+        
+                return result;
+    }
+
+
+
     /* ********** TIPE MATRIX ********** */
     public static Matrix Identitas(int N) {
         Matrix M = new Matrix(N, N);
@@ -276,8 +329,7 @@ public class Matrix {
     }
 
 
-
-    // Operasi Baris Elementor
+    /* ********** OPERASI BARIS ELEMENTOR ********** */
     public void swap (int row1, int row2){
         double [] temp = matrix[row1];
         matrix [row1] = matrix[row2];
@@ -313,90 +365,6 @@ public class Matrix {
         minustimesrow(row1,row2,1);
     }
 
-    /* ********** SIFAT MATRIX ********** */
-    public boolean IsIdentitas() {
-        boolean out = true;
-        for (int i = 0; i < this.row; i++) {
-            for (int j = 0; j < this.col; j++) {
-                if (!(((i == j) && matrix[i][j] == 1) || ((i != j) && matrix[i][j] == 0))) {
-                    out = false;
-                }
-            }
-        }
-        return out;
-    }
-
-    public boolean IsSquare(){
-        return (this.row == this.col);
-    }
-
-    // ***Operasi MATRIX***
-    public static void main(String args[]){
-        Matrix m2 = new Matrix(3,4);
-        m2.readMatrix();
-        m2.printMatrix();
-        m2.inverseGausJordan(m2);
-        // Matrix result;
-        // result = matMultiple(m1,m2);
-        // result.printMatrix();
-        // boolean eka = true;
-        // testSpl.readMatrix();
-        // // A.Copy(testSpl);
-        // testSpl.printMatrix();
-        // System.out.println("");
-        // testSpl.bicubicSplineInterpolation();
-        // testSpl.inverseMatrix();
-        // testSpl.printMatrix();
-        // System.out.println("");
-        // eka = tes.isinversvalid(testSpl);
-        // System.out.println(eka+"");
-        // if(testSpl.IsSquare() == true && tes.isinversvalid(testSpl) == true){
-        //     testSpl.inverseMatrix();
-        //     testSpl.printMatrix();
-        // }
-        // tes.getsolustioncramer(testSpl, A);
-        // A = A.subcramer(testSpl, 0);
-        // A.printMatrix();
-        // testSpl.eselonBaris();
-        // System.out.println("\n");
-        // testSpl.printMatrix();
-        // tes.Adjoint(testSpl);
-        // testSpl.printMatrix();
-        // testSpl.printMatrix();
-
-    }
-
-    public void Copy(Matrix in){
-        
-        this.row = in.row;
-        this.col = in.col;
-        this.matrix = new double[in.row][in.col];
-
-
-        for(int i=0; i<in.row;++i){
-            for(int j=0; j<in.col; ++j){
-                this.matrix[i][j] = in.matrix[i][j];
-            }
-        }
-    }
-
-    public Matrix subcramer(int k){
-        double [] temp = new double[this.row];
-        for (int i =0; i< this.row;i++){
-                temp[i] = this.matrix[i][this.col-1];
-        }
-        Matrix N = new Matrix(this);
-        N.Copy(this);
-        N.col -= 1;
-        for (int j =0; j < N.row;j++){
-            N.matrix[j][k] = temp[j];
-        }
-
-        return N;
-    }
-
-
-
     public void eselonBaris() {
         int rowTemp = 0; // Menunjukkan baris saat ini
         int colTemp = 0; // Menunjukkan kolom saat ini
@@ -429,7 +397,7 @@ public class Matrix {
         }
     }
 
-   
+
 
     public void eselonBarisReduksi() {
         eselonBaris(); // Panggil eselonBaris terlebih dahulu untuk mendapatkan bentuk eselon baris
@@ -452,33 +420,7 @@ public class Matrix {
         }
     }
 
-
-
-
-
-
-    
-    public void approximate()
-    {
-        for (int i =0;i<row;i++)
-        {
-            for (int j =0 ; j<col;j++)
-            {
-                matrix[i][j]=(Math.round(matrix[i][j] * decPoint)/decPoint);
-            }
-        }
-        }
-    // public void approximate()
-    // {
-    //     for (int i =0;i<row;i++)
-    //     {
-    //         for (int j =0 ; j<col;j++)
-    //         {
-    //             matrix[i][j]=(Math.round(matrix[i][j] * decPoint)/decPoint);
-    //         }
-    //     }
-    // }
-
+    /* ********** SIFAT MATRIX ********** */
     public boolean isIdentity(int N)//mengecheck apakah matriks[N][N] adalah matriks identitas
     {
         boolean check = true;
@@ -492,38 +434,40 @@ public class Matrix {
         return check;
     }
 
-    //  public static Matrix Identitas(int N) {
-    //     Matrix M = new Matrix(N, N);
-    //     for (int i = 0; i < N; i++)
-    //         M.matrix[i][i] = 1;
-    //     return M;
-    // }
+    public boolean IsSquare(){
+        return (this.row == this.col);
+    }
 
-    public void inverseGausJordan(Matrix m)
-    {
-        Matrix n = new Matrix(m.row,1);
-        for (int i =0; i < m.row; i++){
-            n.matrix[i][0] = m.matrix[i][m.col-1];
-        }
-        m.col -= 1;
-        m.printMatrix();
-        if (m.inverseMatrix()){
-            m.printMatrix();
-            n.printMatrix();
-            //contoh solusi jadi
-            Matrix result = new Matrix(n);
-            result = matMultiple(m, n);
-            result.printMatrix();
-            for (int i =0;i<result.row;i++)
-            {
-                System.out.println("solusi  X" + (i+1) + " : " + result.GetElmt(i, 0));
+    // ***OPERASI MATRIX(KHUSUS)***
+
+    public void Copy(Matrix in){
+        
+        this.row = in.row;
+        this.col = in.col;
+        this.matrix = new double[in.row][in.col];
+
+
+        for(int i=0; i<in.row;++i){
+            for(int j=0; j<in.col; ++j){
+                this.matrix[i][j] = in.matrix[i][j];
             }
         }
-        
-        
+    }
+
+    public Matrix subcramer(int k){
+        double [] temp = new double[this.row];
+        for (int i =0; i< this.row;i++){
+                temp[i] = this.matrix[i][this.col-1];
+        }
+        Matrix N = new Matrix(this);
+        N.Copy(this);
+        N.col -= 1;
+        for (int j =0; j < N.row;j++){
+            N.matrix[j][k] = temp[j];
         }
 
-
+        return N;
+    }
 
 
     public double matriksSegitigaAtas() {
@@ -531,7 +475,6 @@ public class Matrix {
         int colTemp = 0; // Menunjukkan kolom saat ini
         double jumlahswap = 0;
         while (rowTemp < this.row && colTemp < this.col) {
-            // Cari baris dengan elemen pertama yang bukan nol
             int nonZeroRow = rowTemp;
             while (nonZeroRow < this.row && matrix[nonZeroRow][colTemp] == 0) {
                 nonZeroRow++;
@@ -539,25 +482,22 @@ public class Matrix {
             }
     
             if (nonZeroRow < this.row) {
-                // Swap baris dengan baris yang memiliki elemen pertama yang bukan nol
                 swap(rowTemp, nonZeroRow);
                 if (rowTemp != nonZeroRow){
                     jumlahswap++;
                 }
                 
 
-                // Eliminasi baris-baris di bawahnya
                 for (int i = rowTemp + 1; i < this.row; i++) {
                     double factor = matrix[i][colTemp] / matrix[rowTemp][colTemp];
                     minustimesrow(i, rowTemp, factor);
                 }
     
-                rowTemp++; // Pindah ke baris berikutnya
+                rowTemp++; 
             }
     
-            colTemp++; // Pindah ke kolom berikutnya
+            colTemp++; 
         }
-        // this.printMatrix();
         return jumlahswap;
     }
 
@@ -627,76 +567,52 @@ public class Matrix {
         }
     }
 
-    
-
-
-    //fungsi inverse untuk bicubic
-    //CHECK LAGI
-    public boolean inverseMatrix() {
-        int n = this.row;
-        Matrix inverse = new Matrix(n, 2 * n);
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                inverse.matrix[i][j] = this.matrix[i][j];
-                inverse.matrix[i][j + n] = (i == j) ? 1 : 0; // matrix identitas
-            }
+    public static String KaidahCramer(Matrix m)
+    {
+        Matrix A = new Matrix (m);
+        A.Copy(m);
+        Matrix n = new Matrix(m.row,1);
+        for (int i =0; i < m.row; i++){
+            n.matrix[i][0] = A.matrix[i][m.col-1];
         }
-
-        inverse.eselonBarisReduksi(); // Apply Gauss-Jordan elimination
-        //check jumlah 0
-        int zeroCount=0;
-        boolean isInverse=true;//asumsi matrix memiliki inverse
-        for (int i = 0; i < n; i++) {
-            zeroCount=0;
-            for (int j = 0; j < n; j++) {
-                if (inverse.matrix[i][j]==0)
-                {
-                    zeroCount++;
-                }
-            }
-            if (zeroCount==n)
-            {
-                isInverse=false;
-            }
-        }
-        if (isInverse)
-        {
-            for (int i = 0; i < n; i++) {
-                for (int j = n; j < 2 * n; j++) {
-                    this.matrix[i][j - n] = inverse.matrix[i][j];
-            }
-        }
+        A.col -= 1;
+        Matrix B = new Matrix(A);
+        B.Copy(A);
+        if (A.IsSquare() && A.inverseMatrix()){
+            return SPL.getsolustioncramer(m, B);
         }
         else{
-            System.out.println("Tidak ada inverse.");
+            return SPL.eksekusiGauss(m, false);
+
         }
-
-        // Extract the inverse matrix from the augmented matrix
-        return isInverse;
-    }
-
-    public  Matrix multiplyMatrix(Matrix matrix1, Matrix matrix2) {
-               //asumsi square matrix
-        
-                Matrix result = new Matrix(matrix1.row, matrix1.row);
-        
-                for (int i = 0; i < matrix1.row; i++) {
-                    for (int j = 0; j < matrix1.row; j++) {
-                        double sum = 0.0;
-                        for (int k = 0; k < matrix1.row; k++) {
-                            sum += matrix1.matrix[i][k] * matrix2.matrix[k][j];
-                        }
-                        result.matrix[i][j]=sum;
-                    }
-                }
-        
-                return result;
+    }  
+    public static String inverseGausJordan(Matrix m)
+    {
+        Matrix A = new Matrix (m);
+        A.Copy(m);
+        Matrix n = new Matrix(m.row,1);
+        for (int i =0; i < m.row; i++){
+            n.matrix[i][0] = A.matrix[i][m.col-1];
+        }
+        A.col -= 1;
+        if (A.inverseMatrix()){
+            //contoh solusi jadi
+            Matrix result = new Matrix(n);
+            result = matMultiple(A, n);
+            Capturer capturer = new Capturer();
+            capturer.mulai();
+            for (int i =0;i<result.row;i++){
+                System.out.println("solusi  X" + (i+1) + " : " + result.GetElmt(i, 0));
             }
+            String consoleOutput = capturer.stop();
+            return consoleOutput;
+        }
+        else{
+            return SPL.eksekusiGauss(m, false);
 
-
-
+        }
+    }  
 }
-
 
 
 
