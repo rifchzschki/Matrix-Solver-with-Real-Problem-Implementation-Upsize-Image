@@ -332,25 +332,10 @@ public class Matrix {
 
     // ***Operasi MATRIX***
     public static void main(String args[]){
-
-        
-        // try {
-        //     Matrix testSpl= new Matrix(1,1);
-        //     testSpl = testSpl.BacaFileMatriks("cupi.txt");
-        //     testSpl.printMatrix();
-        // } catch (FileNotFoundException e) {
-        //     System.err.println("File not found: " + e.getMessage());
-        // }
-        
-        // Matrix A = new Matrix(testSpl);
-        // testSpl.interpolasiGaus(3);
-        // A = testSpl.regresiberganda();
-        // A.printMatrix();
-        // Balikan tes = new Balikan();
-        // Matrix m1 = new Matrix(2,3);
-        // Matrix m2 = new Matrix(3,2);
-        // m1.readMatrix();
-        // m2.readMatrix();
+        Matrix m2 = new Matrix(3,4);
+        m2.readMatrix();
+        m2.printMatrix();
+        m2.inverseGausJordan(m2);
         // Matrix result;
         // result = matMultiple(m1,m2);
         // result.printMatrix();
@@ -514,108 +499,31 @@ public class Matrix {
     //     return M;
     // }
 
-    public void inverseGausJordan()
+    public void inverseGausJordan(Matrix m)
     {
-        //asumsi matrix NxN
-        Matrix inverse = new Matrix(this.row,(this.row)*2);
-        Matrix matrixIdentity = new Matrix(this.row,this.row);
-        matrixIdentity=Identitas(this.row);
-        int k=0,l=0;
-        //buat matriks baru yang berisi gabungan matrix dan matrix identitas
-        for (int i = 0;i<this.row;i++)
-        {
-            
-            for (int j = 0 ;j<(this.row)*2;j++)
-            {
-                if (j<(this.col-1))
-                {
-                    inverse.matrix[i][j]=this.matrix[i][j];
-                }
-                else 
-                {
-                    inverse.matrix[i][j]=matrixIdentity.matrix[i][l];
-                    l++;
-                    if (l>this.row-1)
-                    {
-                        l =0;
-                    }
-                }
-                
-            }
-            
+        Matrix n = new Matrix(m.row,1);
+        for (int i =0; i < m.row; i++){
+            n.matrix[i][0] = m.matrix[i][m.col-1];
         }
-       //melakukan operasi eselon baris reduksi pada matrix inverse
-        inverse.eselonBarisReduksi();
+        m.col -= 1;
+        m.printMatrix();
+        if (m.inverseMatrix()){
+            m.printMatrix();
+            n.printMatrix();
+            //contoh solusi jadi
+            Matrix result = new Matrix(n);
+            result = matMultiple(m, n);
+            result.printMatrix();
+            for (int i =0;i<result.row;i++)
+            {
+                System.out.println("solusi  X" + (i+1) + " : " + result.GetElmt(i, 0));
+            }
+        }
         
+        
+        }
 
-        //mengecek apakah adanya baris yang bernilai 0
-        // int [] zeroCount=new int[this.row];
-        //menghitung nilai 0 pada tiap baris
-        int temp;
-        boolean inverseExist = true;
-        for(int i = 0 ; i <this.row;i++)
-        {
-            temp =0;
-            for (int j =0 ;j<this.row;j++)
-            {
-                if (inverse.matrix[i][j]==0)
-                {
-                    temp++;
-                }
-            }
-            if (temp == this.row)
-            {
-                
-                inverseExist=false;
-                break;
-            }
-        }
-         
-        
-        // inverse.printMatrix();
-        if (inverseExist)
-        {
-            //mengembalikan hasil inverse ke this.matrix
-            for (int i = 0;i < this.row;i++)
-            {
-                for ( int j = this.row;j<(this.row)*2;j++)
-                {
-                    this.matrix[i][j-this.row]=inverse.matrix[i][j];
-                    
-                }
-            }
-            // //contoh solusi jadi
-            // double[] solusi = new double[this.row];
-            // double temp1=0;
-            // int x =0;
-            // for (int i = 0;i < this.row;i++)
-            // {
-            //     temp1=0;
-            //     for ( int j = 0;j<this.col-1;j++)
-            //     {
-            //         temp1+=this.matrix[i][j]*this.matrix[x][this.col-1];
-            //         x++;
-            //         if (x>this.row-1)
-            //         {
-            //             x=0;
-            //         }
-            //     }
-            //     solusi[i]=temp1;
-            // }
-            // for (int i =0;i<this.row;i++)
-            // {
-            //     System.out.println("solusi  X" + (i+1) + " : " + solusi[i]);
-            // }
-        }
-        else
-        {
-            System.out.println("KONTOL!!!");
-            
-        }
-        
-   
 
-    }
 
 
     public double matriksSegitigaAtas() {
