@@ -642,6 +642,20 @@ public class Menu{
                 System.out.println(output);
                 savefile(output);
             }
+            else{
+                // try {
+                //     System.out.print("Masukkan nama file(.txt) : ");
+                //     String a = scanner.nextLine();
+                //     Matrix m = new Matrix(1,1);
+                //     m = m.BacaFileMatriks(a);
+                //     String output = Interpolasi.interpolasiGaus(N,m, 0);
+                //     System.out.println(output);
+                //     savefile(output);
+                // } catch (FileNotFoundException e) {
+                //     System.err.println("File not found: " + e.getMessage());
+                //     Continue();
+                // }
+            }
         }
         
         scanner.close();
