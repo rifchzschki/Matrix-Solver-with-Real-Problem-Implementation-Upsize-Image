@@ -79,6 +79,22 @@ public class Menu{
         return input;
     }
 
+    int subMenuInterpolasi(){
+        System.out.println("\n----------Pilih Metode Penyelesaian----------");
+        System.out.println("1.Interpolasi Bicubic");
+        System.out.println("2.Interpolasi Bicubic Bonus");
+
+        System.out.print("Pilihan Metode : ");
+        int input = scanner.nextInt();
+
+        while (input < 1 || input > 2){
+            System.out.println("\nMasukan Tidak Valid\n");
+            System.out.print("Pilihan Menu : ");
+            input = scanner.nextInt();
+        }
+        return input;
+    }
+
     int subMenuinput(){
         System.out.println("\n----------Pilih Metode Input----------");
         System.out.println("1.Keyboard");
@@ -132,9 +148,8 @@ public class Menu{
         }
     }
     public void run(){
-        int menu,subSpl, subInput,subdeterminan,subbalikan;
+        int menu,subSpl, subInput,subdeterminan,subbalikan,subInterpolasi;
         menu = listmenu();
-        scanner.nextLine();
         if (menu == 1){
             subSpl = subMenuSPL();
             if (subSpl == 1){
@@ -225,9 +240,95 @@ public class Menu{
                     }
                 }
             }
+            else if (subSpl == 3){
+                subInput = subMenuinput();
+                scanner.nextLine();
+                if (subInput ==1){
+                    System.out.print("M:");
+                    int m = scanner.nextInt();
+                    System.out.print("N:");
+                    int n = scanner.nextInt();
+                    Matrix mat = new Matrix(m, n);
+                    mat.readMatrix();
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
+                    System.out.println("\n Input Matrix : \n");
+                    mat.printMatrix();
+                    String consoleOutput = capturer.stop();
+                    String output = Matrix.inverseGausJordan(mat);
+                    String result = consoleOutput + output;
+                    System.out.println(result);
+                    savefile(result);
+                }
+                else{
+                    try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m= new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        String ConsoleOuput = capturer.stop();
+                        String output = Matrix.inverseGausJordan(m);
+                        String result = ConsoleOuput + output;
+                        System.out.println(result);
+                        savefile(result);
+
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
+                }
+            }
+            else{
+                subInput = subMenuinput();
+                scanner.nextLine();
+                if (subInput ==1){
+                    System.out.print("M:");
+                    int m = scanner.nextInt();
+                    System.out.print("N:");
+                    int n = scanner.nextInt();
+                    Matrix mat = new Matrix(m, n);
+                    mat.readMatrix();
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
+                    System.out.println("\n Input Matrix : \n");
+                    mat.printMatrix();
+                    String consoleOutput = capturer.stop();
+                    String output = Matrix.KaidahCramer(mat);
+                    String result = consoleOutput + output;
+                    System.out.println(result);
+                    savefile(result);
+                }
+                else{
+                    try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m= new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        String ConsoleOuput = capturer.stop();
+                        String output = Matrix.KaidahCramer(m);
+                        String result = ConsoleOuput + output;
+                        System.out.println(result);
+                        savefile(result);
+
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
+                }
+            }
         }
         else if (menu == 2){
-            Determinan d = new Determinan();
+            Determinan det = new Determinan();
             subdeterminan = subMenuDeterminan();
 
             if (subdeterminan == 1){
@@ -244,7 +345,7 @@ public class Menu{
 
                     System.out.println("\n Input Matrix : \n");
                     m.printMatrix();
-                    d.OBEDeterminant(m);
+                    det.OBEDeterminant(m);
 
                     String consoleOutput = capturer.stop();
                     System.out.println(consoleOutput);
@@ -252,7 +353,7 @@ public class Menu{
                     savefile(consoleOutput);
                 }
                 else{
-                //    try {
+                   try {
                         System.out.print("Masukkan nama file(.txt) : ");
                         String a = scanner.nextLine();
                         Matrix m= new Matrix(1,1);
@@ -262,16 +363,16 @@ public class Menu{
 
                         System.out.println("\n Input Matrix : \n");
                         m.printMatrix();
-                        d.OBEDeterminant(m);
+                        det.OBEDeterminant(m);
 
                         String consoleOuput = capturer.stop();
                         System.out.println(consoleOuput);
                         
                         savefile(consoleOuput);
 
-                    // } catch (FileNotFoundException e) {
-                    //     System.err.println("File not found: " + e.getMessage());
-                    //     Continue();
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
                     }
                 }
             }
@@ -289,7 +390,7 @@ public class Menu{
 
                     System.out.println("\n Input Matrix : \n");
                     m.printMatrix();
-                    d.kofaktorDeterminant(m);
+                    det.kofaktorDeterminant(m);
                     
                     String consoleOutput = capturer.stop();
                     System.out.println(consoleOutput);
@@ -307,7 +408,7 @@ public class Menu{
 
                         System.out.println("\n Input Matrix : \n");
                         m.printMatrix();
-                        d.kofaktorDeterminant(m);
+                        det.kofaktorDeterminant(m);
 
                         String consoleOutput = capturer.stop();
                         System.out.println(consoleOutput);
@@ -320,7 +421,6 @@ public class Menu{
             }
                 
         }
-    
         else if (menu == 3){
             Balikan invers = new Balikan();
             subbalikan = subMenuBalikan();
@@ -459,16 +559,51 @@ public class Menu{
         }   
         else if(menu == 5){
             Interpolasi interpolasi = new Interpolasi();
-            subInput = subMenuinput();
+            subInterpolasi = subMenuInterpolasi();
+            if (subInterpolasi == 1){
+                subInput = subMenuinput();
+                scanner.nextLine();
+                if(subInput == 1){
+                    Matrix m = new Matrix(4,4);
+                    m.readMatrix();
+                    Capturer capturer = new Capturer();
+                    capturer.mulai();
 
-            if (subInput == 1){
-                Matrix m = new Matrix(4,4 );
-                m.readMatrix();
-                Interpolasi.bicubicSplineInterpolation(m,0.5,0.5);
-                Continue();
+                    System.out.println("\n Input Matrix : \n");
+                    m.printMatrix();
+                    String consoleOutput = capturer.stop();
+                    String output = Interpolasi.bicubicSplineInterpolation(m);
+                    String result = consoleOutput + output;
+                    System.out.println(result);
+                    savefile(result);
+                }
+                else{
+                    try {
+                        System.out.print("Masukkan nama file(.txt) : ");
+                        String a = scanner.nextLine();
+                        Matrix m = new Matrix(1,1);
+                        m = m.BacaFileMatriks(a);
+                        Capturer capturer = new Capturer();
+                        capturer.mulai();
+
+                        System.out.println("\n Input Matrix : \n");
+                        m.printMatrix();
+                        String consoleOutput = capturer.stop();
+                        String output = Interpolasi.bicubicSplineInterpolation(m);
+                        String result = consoleOutput + output;
+                        System.out.println(result);
+                        savefile(result);
+                    } catch (FileNotFoundException e) {
+                        System.err.println("File not found: " + e.getMessage());
+                        Continue();
+                    }
+                }
+            
+            }
+            else{
+                interpolasi.bonus();
             }
         }
-
         else if(menu == 6){
             subInput = subMenuinput();
 
@@ -513,5 +648,6 @@ public class Menu{
 
     }
 }
+
 
 

@@ -10,7 +10,7 @@ public class SPL {
     // }
 
     public static String eksekusiGauss(Matrix mat, boolean IsGausJordan){
-        if (!IsGausJordan){
+        if (IsGausJordan == true){
             mat.eselonBaris();
         }
         else{
@@ -82,13 +82,41 @@ public class SPL {
     // // public static void main(String[] args){
     // //     SPL.SPLGaus();
     // // }
-    public void getsolustioncramer(Matrix m, Matrix k){
+    
+    // public Matrix inverseGausJordan(Matrix m)
+    // {
+    //     Matrix n = new Matrix(m.row,1);
+    //     for (int i =0; i < m.row; i++){
+    //         n.matrix[i][0] = m.matrix[i][m.col-1];
+    //     }
+    //     m.setCol()-1;
+    //     m.printMatrix();
+    //     if (m.inverseMatrix()){
+    //         m.printMatrix();
+    //         n.printMatrix();
+    //         //contoh solusi jadi
+    //         Matrix result = new Matrix(n);
+    //         result = matMultiple(m, n);
+    //         result.printMatrix();
+    //         for (int i =0;i<result.row;i++)
+    //         {
+    //             System.out.println("solusi  X" + (i+1) + " : " + result.GetElmt(i, 0));
+    //         }
+    //     }
+        
+        
+    // }
+
+    public static String getsolustioncramer(Matrix m, Matrix k){
+        Capturer capturer = new Capturer();
+        capturer.mulai();
         for (int i =0; i<= m.GetLastIdxBrs(); i++){    
             k = m.subcramer(i);
             double det = k.getDeterminant()/m.getDeterminant();
             System.out.format("X%d = %f\n",i+1, det);
         }
-
+        String consoleoutput = capturer.stop();
+        return consoleoutput;
     }
 }
 

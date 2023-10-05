@@ -1,12 +1,9 @@
 package src;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.*;
 import javax.imageio.ImageIO;
-
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+
 
 
 public class Interpolasi {
@@ -103,7 +100,7 @@ public class Interpolasi {
          return consoleOutput;
     }
 
-    public static void bicubicSplineInterpolation(Matrix m){
+    public static String bicubicSplineInterpolation(Matrix m){
         Matrix bicubic = new Matrix(16,16);
         double[] solution = new double[16];
         //masukan nilai f(x,y)
@@ -243,9 +240,12 @@ public class Interpolasi {
                 break;
             }
         }
+        Capturer capturer = new Capturer();
+        capturer.mulai();
         System.out.print("f("+a+","+b+") : ");
         System.out.print(hasil);
-        
+        String consoleoutput = capturer.stop();
+        return consoleoutput;
     }
             
 public int bicubicSplineInterpolationBonus(BufferedImage foto, double pixelx, double pixely) throws IOException {
@@ -561,25 +561,25 @@ public int bicubicSplineInterpolationBonus(BufferedImage foto, double pixelx, do
 
 
 
-    public static void main(String[] args){
-        // Interpolasi.interpolasiGaus();
-        Matrix m = new Matrix(1,1 );
-        String a = "cupi.txt";
-        Interpolasi nget = new Interpolasi();
-        nget.bonus();
-        // try{
-        //     m = m.BacaFileMatriks(a);
-        //     Interpolasi.bicubicSplineInterpolation(m);
-        // }catch (Exception e)
-        // {
-        //     System.err.println("An error occurred: " + e.getMessage());
-        // }
+    // public static void main(String[] args){
+    //     // Interpolasi.interpolasiGaus();
+    //     Matrix m = new Matrix(1,1 );
+    //     String a = "cupi.txt";
+    //     Interpolasi nget = new Interpolasi();
+    //     nget.bonus();
+    //     // try{
+    //     //     m = m.BacaFileMatriks(a);
+    //     //     Interpolasi.bicubicSplineInterpolation(m);
+    //     // }catch (Exception e)
+    //     // {
+    //     //     System.err.println("An error occurred: " + e.getMessage());
+    //     // }
 
-    }
+    // }
         
         // double x = pow(2,10);
         // System.out.println(x);
-    }
+}
 
 
 
