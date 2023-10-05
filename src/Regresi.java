@@ -112,7 +112,8 @@ public class Regresi {
     }
 
     // public static void main(String[] args){
-    //     Regresi.regresiberganda();
+        
+    //     regresiberganda();
     // }
 
 }
