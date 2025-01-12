@@ -1,4 +1,4 @@
-# AlGEO01-22001
+# Matrix-Solver-with-Real-Problem-Implementation-Upsize-Image
 
 ![Teks Alt](zzz/kiw.jpg)
 <br>
