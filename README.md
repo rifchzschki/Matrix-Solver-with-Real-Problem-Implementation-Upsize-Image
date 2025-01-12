@@ -1,6 +1,4 @@
-# Matrix Solver
-##### with
-##### Real Problem Implementation (Upsize Image)
+# Matrix Solver with Real Problem Implementation (Upsize Image)
 
 ![Teks Alt](zzz/kiw.jpg)
 <br>
